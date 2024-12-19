@@ -3,14 +3,3 @@
 @import url(./blocks/squarePanel.css);
 @import url(./blocks/syndicatePanel.css);
 @import url(./blocks/popup.css);
-
-.indicator-panel {
-    width: 66%; /* 2/3 ширины */
-    margin: 0 auto;
-  }
-  
-  .indicator-panel .icon-box {
-    width: 40px;
-    height: 40px;
-  }
-  

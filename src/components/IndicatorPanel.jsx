@@ -1,15 +1,17 @@
 import React, { useState } from "react";
 import Popup from "./Popup";
+
 const IndicatorPanel = ({ indicators }) => {
-  const [selectedIcon, setSelectedIcon] = useState(null); // Состояние для хранения выбранной иконки
+  const [selectedIcon, setSelectedIcon] = useState(null);
 
   const openPopup = (icon) => {
-    setSelectedIcon(icon); // Открываем попап с конкретной иконкой
+    setSelectedIcon(icon);
   };
 
   const closePopup = () => {
-    setSelectedIcon(null); // Закрываем попап
+    setSelectedIcon(null);
   };
+
   return (
     <div className="indicator-panel">
       <div className="icon-container">
@@ -20,6 +22,7 @@ const IndicatorPanel = ({ indicators }) => {
             onClick={() => openPopup(indicator)}
           >
             <img src={indicator.icon} alt={`icon-${index}`} />
+            <div className="indicator-value">{indicator.value}</div>
           </div>
         ))}
       </div>

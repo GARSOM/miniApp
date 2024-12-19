@@ -14,14 +14,14 @@ import facture from './assets/icons/facture.webp'
 import infrastucture from './assets/icons/infrastucture.webp'
 const App = () => {
   const indicators = [
-    { icon: wheel, description: "Влияет на время продажи товара" },
-    { icon: money, description: "Ресурс для покупки и использования других ресурсов"},
-    { icon: material, description: "Необходим для производства товара"},
-    { icon: human, description: "Количество работников определяет максимальное кол-во одновременно производимых товаров"},
-    { icon: energy, description: "Необходим для запуска производства товара"},
-    { icon: sklad, description: "Определяет максимальное количество производства товаров"},
-    { icon: facture, description: "Влияет на время производства товара"},
-    { icon: infrastucture, description: "Влияет на потребление ресурсов для производства"},
+    { icon: wheel, value: 42, description: "Влияет на время продажи товара" },
+    { icon: money, value: 42, description: "Ресурс для покупки и использования других ресурсов" },
+    { icon: material, value: 42, description: "Необходим для производства товара" },
+    { icon: human, value: 42, description: "Количество работников определяет максимальное кол-во одновременно производимых товаров" },
+    { icon: energy, value: 42, description: "Необходим для запуска производства товара" },
+    { icon: sklad, value: 42, description: "Определяет максимальное количество производства товаров" },
+    { icon: facture, value: 42, description: "Влияет на время производства товара" },
+    { icon: infrastucture, value: 42, description: "Влияет на потребление ресурсов для производства" },
   ];
 
   return (
