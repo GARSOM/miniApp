@@ -1,0 +1,24 @@
+.square-panel {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start; /* Начинаем с левого края */
+  width: 100%;
+  border: 1px solid #888;
+  border-radius: 4px;
+  box-sizing: border-box;
+  padding: 5px;
+}
+
+.square-container {
+  display: flex;
+  gap: 5px;
+  margin-left: auto; /* Прижимаем к правому краю */
+}
+
+.square {
+  width: 30px;
+  height: 30px;
+  border: 1px solid #888;
+  border-radius: 4px;
+  background-color: #fff;
+}

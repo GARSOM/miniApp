@@ -1,0 +1,93 @@
+.syndicate-panel {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    width: 100%;
+    box-sizing: border-box;
+    padding: 10px;
+  }
+  
+  .factory-title {
+    font-weight: bold;
+    color: #000;
+    text-align: center;
+  }
+  
+  .syndicate-box {
+    background-color: #ffb3b3;
+    border: 1px solid #888;
+    text-align: center;
+    font-weight: bold;
+    padding: 5px;
+    border-radius: 4px;
+  }
+  
+  .progress-container {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+  }
+  
+  .progress-bar {
+    position: relative;
+    height: 25px;
+    border: 1px solid #888;
+    border-radius: 4px;
+    background-color: #f0f0f0;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    padding-left: 5px;
+    font-size: 12px;
+    color: #000;
+  }
+  
+  .progress-bar {
+    position: relative;
+    height: 25px;
+    border: 1px solid #888;
+    border-radius: 4px;
+    background-color: #f0f0f0;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    font-size: 12px;
+    color: #000;
+    z-index: 1; /* Текст выше всего */
+  }
+  
+  .progress-bar span {
+    position: relative; /* Текст остается выше прогресс-бара */
+    z-index: 2; /* Выше цветной шкалы */
+    padding-left: 5px; /* Отступ слева */
+  }
+  .progress-bar .progress-fill {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    z-index: 1; /* Цветная шкала под текстом */
+  }
+  
+  .progress-bar.purple .progress-fill {
+    background-color: #d0b3ff;
+  }
+  
+  .progress-bar.green .progress-fill {
+    background-color: #b3ffb3;
+  }
+  
+  .partners-box,
+  .profile-box {
+    background-color: #e6e6e6;
+    border: 1px solid #888;
+    text-align: center;
+    font-weight: bold;
+    padding: 5px;
+    border-radius: 4px;
+  }
+  
+  .profile-box {
+    background-color: #cce5ff;
+  }
+  
