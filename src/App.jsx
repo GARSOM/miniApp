@@ -1,17 +1,18 @@
-import React from "react";
+import React, { useEffect } from "react";
 import IndicatorPanel from "./components/IndicatorPanel";
 import CompanyInfo from "./components/CompanyInfo";
-import SquarePanel from './components/SquarePanel'
+import SquarePanel from './components/SquarePanel';
 import SyndicatePanel from "./components/SyndicatePanel";
-import ResourceMenu from './components/ResourceMenu'
-import wheel from './assets/icons/wheel.webp'
-import money from './assets/icons/money.webp'
-import material from './assets/icons/material.webp'
-import human from './assets/icons/human.webp'
-import energy from './assets/icons/energy.webp'
-import sklad from './assets/icons/sklad.webp'
-import facture from './assets/icons/facture.webp'
-import infrastucture from './assets/icons/infrastucture.webp'
+import ResourceMenu from './components/ResourceMenu';
+import wheel from './assets/icons/wheel.webp';
+import money from './assets/icons/money.webp';
+import material from './assets/icons/material.webp';
+import human from './assets/icons/human.webp';
+import energy from './assets/icons/energy.webp';
+import sklad from './assets/icons/sklad.webp';
+import facture from './assets/icons/facture.webp';
+import infrastucture from './assets/icons/infrastucture.webp';
+
 const App = () => {
   const indicators = [
     { icon: wheel, value: 42, description: "Влияет на время продажи товара" },
@@ -24,13 +25,41 @@ const App = () => {
     { icon: infrastucture, value: 42, description: "Влияет на потребление ресурсов для производства" },
   ];
 
+  useEffect(() => {
+    const tg = window.Telegram?.WebApp;
+
+    if (tg) {
+      // Инициализация Telegram Web App API
+      tg.ready();
+
+      // Настройка главной кнопки Telegram
+      tg.MainButton.text = "Закрыть";
+      tg.MainButton.show();
+
+      // Обработка клика на главную кнопку
+      const handleClose = () => {
+        tg.close();
+      };
+
+      tg.MainButton.onClick(handleClose);
+
+      // Очистка обработчиков при размонтировании компонента
+      return () => {
+        tg.MainButton.offClick(handleClose);
+      };
+    } else {
+      console.warn("Telegram Web App API не доступен.");
+    }
+  }, []);
+
   return (
-    <div >
+    <div>
       <IndicatorPanel indicators={indicators} />
       <SquarePanel />
       <CompanyInfo />
       <SyndicatePanel />
       <ResourceMenu />
+      ю
     </div>
   );
 };
