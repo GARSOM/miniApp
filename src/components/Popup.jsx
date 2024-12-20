@@ -15,7 +15,7 @@ const Popup = ({ icon, name, description, onClose }) => {
 
       // Обработчик нажатия кнопки "OK"
       tg.MainButton.onClick(() => {
-        console.log("Кнопка 'OK' нажата");
+
         onClose();
 
         // Возвращаем кнопку к состоянию "Профиль"
