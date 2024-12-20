@@ -5,25 +5,24 @@ const MainButton = () => {
     const tg = window.Telegram?.WebApp;
 
     if (tg) {
+      console.log("Telegram WebApp API доступен");
       tg.ready();
-      tg.MainButton.show(); // Показываем главную кнопку
-      // Настраиваем главную кнопку Telegram
+
       tg.MainButton.text = "Профиль";
-      tg.MainButton.color = "#0088cc"; // Синий цвет
+      tg.MainButton.color = "#0088cc";
       tg.MainButton.textColor = "#ffffff";
       tg.MainButton.show();
 
       tg.MainButton.onClick(() => {
-        console.log("Кнопка 'Профиль' нажата");
-        tg.close(); // Закрываем Web App
+        alert("Главная кнопка нажата");
       });
 
-      // Настраиваем дополнительную кнопку Telegram
       tg.BackButton.show();
       tg.BackButton.onClick(() => {
-        console.log("Кнопка 'Партнеры' нажата");
-        // Здесь можно реализовать переход в меню партнеров
+        alert("Кнопка 'Партнеры' нажата");
       });
+    } else {
+      console.warn("Telegram WebApp API не доступен");
     }
 
     return () => {
@@ -34,7 +33,7 @@ const MainButton = () => {
     };
   }, []);
 
-  return null; // Компонент не отображает ничего, работает через Telegram API
+  return null;
 };
 
 export default MainButton;
