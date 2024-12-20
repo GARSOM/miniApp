@@ -29,22 +29,6 @@ const App = () => {
     { icon: infrastucture, name: "Инфраструктура", value: 42, description: "Влияет на потребление ресурсов для производства" },
   ];
 
-  useEffect(() => {
-    const tg = window.Telegram?.WebApp;
-  
-    if (tg) {
-      console.log("Telegram WebApp API доступен");
-      tg.ready();
-  
-      // Адаптация темы Telegram
-      const themeParams = tg.themeParams;
-      setTheme({
-        backgroundColor: themeParams.bg_color || "#ffffff",
-        textColor: themeParams.text_color || "#000000",
-      });
-
-    }
-  }, []);
 
   return (
     <div
