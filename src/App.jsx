@@ -36,25 +36,6 @@ const App = () => {
       console.log("Telegram WebApp API доступен");
       tg.ready();
   
-      // Тест MainButton
-      try {
-        tg.MainButton.setParams({
-          text: "Тестовая кнопка", // Устанавливаем текст кнопки
-          color: "#0088cc", // Синий цвет
-          text_color: "#ffffff", // Белый текст
-        });
-        tg.MainButton.show();
-        console.log("MainButton успешно отображён");
-  
-        tg.MainButton.onClick(() => {
-          alert("Кнопка работает!");
-          tg.close(); // Закрываем Web App
-        });
-      } catch (error) {
-        console.error("Ошибка при настройке MainButton:", error);
-      }
-    } else {
-      console.warn("Telegram WebApp API не доступен");
     }
 
   }, []);
