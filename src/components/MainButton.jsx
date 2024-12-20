@@ -6,7 +6,7 @@ const MainButton = () => {
 
     if (tg) {
       tg.ready();
-
+      tg.MainButton.show(); // Показываем главную кнопку
       // Настраиваем главную кнопку Telegram
       tg.MainButton.text = "Профиль";
       tg.MainButton.color = "#0088cc"; // Синий цвет
