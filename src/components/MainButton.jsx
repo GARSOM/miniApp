@@ -7,6 +7,7 @@ const MainButton = () => {
     if (tg) {
       console.log("Telegram WebApp API доступен");
 
+      // BottomButton
       if (tg.BottomButton) {
         console.log("BottomButton доступен");
         tg.BottomButton.setParams({
@@ -16,34 +17,49 @@ const MainButton = () => {
           isVisible: true,
           isEnabled: true,
         });
+
         tg.BottomButton.onClick(() => {
           alert("Кнопка 'Профиль' нажата");
         });
       } else {
-        console.warn("BottomButton не поддерживается. Используем fallback.");
-        // Кастомная кнопка для веб-версии
-        const button = document.createElement("button");
-        button.innerText = "Профиль";
-        button.style.position = "fixed";
-        button.style.bottom = "20px";
-        button.style.left = "50%";
-        button.style.transform = "translateX(-50%)";
-        button.style.padding = "10px 20px";
-        button.style.backgroundColor = "#0088cc";
-        button.style.color = "#fff";
-        button.style.border = "none";
-        button.style.borderRadius = "5px";
-        button.style.cursor = "pointer";
-        button.onclick = () => alert("Кнопка 'Профиль' нажата (fallback)");
-        document.body.appendChild(button);
+        console.warn("BottomButton не поддерживается");
+      }
 
-        return () => {
-          document.body.removeChild(button);
-        };
+      // SecondaryButton
+      if (tg.SecondaryButton) {
+        console.log("SecondaryButton доступен");
+        try {
+          if (tg.SecondaryButton.isSupported?.()) {
+            tg.SecondaryButton.setParams({
+              text: "Партнеры",
+              color: "#4caf50",
+              textColor: "#ffffff",
+              isVisible: true,
+              isEnabled: true,
+            });
+
+            tg.SecondaryButton.onClick(() => {
+              alert("Кнопка 'Партнеры' нажата");
+            });
+          } else {
+            console.warn("SecondaryButton не поддерживается");
+          }
+        } catch (error) {
+          console.error("Ошибка при проверке SecondaryButton:", error);
+        }
+      } else {
+        console.warn("SecondaryButton отсутствует в вашем клиенте");
       }
     } else {
       console.warn("Telegram WebApp API не доступен");
     }
+
+    return () => {
+      if (tg) {
+        tg.BottomButton?.hide();
+        tg.SecondaryButton?.hide?.();
+      }
+    };
   }, []);
 
   return null;
