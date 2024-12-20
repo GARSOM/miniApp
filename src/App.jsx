@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import IndicatorPanel from "./components/IndicatorPanel";
 import CompanyInfo from "./components/CompanyInfo";
 import SquarePanel from './components/SquarePanel';
@@ -15,9 +15,10 @@ import infrastucture from './assets/icons/infrastucture.webp';
 
 const App = () => {
   const [theme, setTheme] = useState({
-    backgroundColor: "#ffffff",
-    textColor: "#000000",
+    backgroundColor: "#ffffff", // Стандартный белый фон
+    textColor: "#000000", // Стандартный чёрный текст
   });
+
   const indicators = [
     { icon: wheel, value: 42, description: "Влияет на время продажи товара" },
     { icon: money, value: 42, description: "Ресурс для покупки и использования других ресурсов" },
@@ -33,17 +34,19 @@ const App = () => {
     const tg = window.Telegram?.WebApp;
 
     if (tg) {
-      const themeParams = tg.themeParams;
-      setTheme({
-        backgroundColor: themeParams.bg_color || "#ffffff",
-        textColor: themeParams.text_color || "#000000",
-      });
       // Инициализация Telegram Web App API
       tg.ready();
 
       // Настройка главной кнопки Telegram
       tg.MainButton.text = "Закрыть";
       tg.MainButton.show();
+
+      // Адаптация темы из Telegram
+      const themeParams = tg.themeParams;
+      setTheme({
+        backgroundColor: themeParams.bg_color || "#ffffff",
+        textColor: themeParams.text_color || "#000000",
+      });
 
       // Обработка клика на главную кнопку
       const handleClose = () => {
@@ -62,18 +65,19 @@ const App = () => {
   }, []);
 
   return (
-    <div style={{
-      backgroundColor: theme.backgroundColor,
-      color: theme.textColor,
-      minHeight: "100vh",
-      padding: "20px",
-    }}>
+    <div
+      style={{
+        backgroundColor: theme.backgroundColor,
+        color: theme.textColor,
+        minHeight: "100vh",
+        padding: "20px",
+      }}
+    >
       <IndicatorPanel indicators={indicators} />
       <SquarePanel />
       <CompanyInfo />
       <SyndicatePanel />
       <ResourceMenu />
-      ю
     </div>
   );
 };
