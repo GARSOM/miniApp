@@ -42,26 +42,7 @@ const App = () => {
         backgroundColor: themeParams.bg_color || "#ffffff",
         textColor: themeParams.text_color || "#000000",
       });
-  
-      // Логи для отладки MainButton
-      console.log("Настраиваем MainButton...");
-      try {
-        tg.MainButton.text = "Тестовая кнопка"; // Устанавливаем текст кнопки
-        tg.MainButton.color = "#0088cc"; // Синий цвет
-        tg.MainButton.textColor = "#ffffff"; // Белый текст
-        tg.MainButton.show(); // Показываем кнопку
-        console.log("MainButton настроен успешно");
-  
-        // Добавляем обработчик нажатия
-        tg.MainButton.onClick(() => {
-          alert("Кнопка нажата!");
-          tg.close(); // Закрываем Web App после нажатия
-        });
-      } catch (error) {
-        console.error("Ошибка при настройке MainButton:", error);
-      }
-    } else {
-      console.warn("Telegram WebApp API не доступен");
+
     }
   }, []);
 
