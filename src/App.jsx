@@ -14,6 +14,10 @@ import facture from './assets/icons/facture.webp';
 import infrastucture from './assets/icons/infrastucture.webp';
 
 const App = () => {
+  const [theme, setTheme] = useState({
+    backgroundColor: "#ffffff",
+    textColor: "#000000",
+  });
   const indicators = [
     { icon: wheel, value: 42, description: "Влияет на время продажи товара" },
     { icon: money, value: 42, description: "Ресурс для покупки и использования других ресурсов" },
@@ -29,6 +33,11 @@ const App = () => {
     const tg = window.Telegram?.WebApp;
 
     if (tg) {
+      const themeParams = tg.themeParams;
+      setTheme({
+        backgroundColor: themeParams.bg_color || "#ffffff",
+        textColor: themeParams.text_color || "#000000",
+      });
       // Инициализация Telegram Web App API
       tg.ready();
 
@@ -53,7 +62,12 @@ const App = () => {
   }, []);
 
   return (
-    <div>
+    <div style={{
+      backgroundColor: theme.backgroundColor,
+      color: theme.textColor,
+      minHeight: "100vh",
+      padding: "20px",
+    }}>
       <IndicatorPanel indicators={indicators} />
       <SquarePanel />
       <CompanyInfo />
