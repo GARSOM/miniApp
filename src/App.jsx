@@ -4,6 +4,7 @@ import CompanyInfo from "./components/CompanyInfo";
 import SquarePanel from './components/SquarePanel';
 import SyndicatePanel from "./components/SyndicatePanel";
 import ResourceMenu from './components/ResourceMenu';
+import PartnersButton from './components/PartnersButton';
 import wheel from './assets/icons/wheel.webp';
 import money from './assets/icons/money.webp';
 import material from './assets/icons/material.webp';
@@ -78,6 +79,7 @@ const App = () => {
       <CompanyInfo />
       <SyndicatePanel />
       <ResourceMenu />
+      <PartnersButton />
     </div>
   );
 };
