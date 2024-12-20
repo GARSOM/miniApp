@@ -2,14 +2,14 @@ import React, { useState } from "react";
 import Popup from "./Popup";
 
 const IndicatorPanel = ({ indicators }) => {
-  const [selectedIcon, setSelectedIcon] = useState(null);
+  const [selectedIndicator, setSelectedIndicator] = useState(null);
 
-  const openPopup = (icon) => {
-    setSelectedIcon(icon);
+  const openPopup = (indicator) => {
+    setSelectedIndicator(indicator);
   };
 
   const closePopup = () => {
-    setSelectedIcon(null);
+    setSelectedIndicator(null);
   };
 
   return (
@@ -26,10 +26,11 @@ const IndicatorPanel = ({ indicators }) => {
           </div>
         ))}
       </div>
-      {selectedIcon && (
+      {selectedIndicator && (
         <Popup
-          icon={selectedIcon.icon}
-          description={selectedIcon.description}
+          icon={selectedIndicator.icon}
+          name={selectedIndicator.name}
+          description={selectedIndicator.description}
           onClose={closePopup}
         />
       )}

@@ -12,6 +12,9 @@
   display: flex;
   gap: 5px;
   margin-left: auto;
+  padding: 1%;
+  height: 50px;
+  align-items: center;
 }
 
 .square {
@@ -20,4 +23,5 @@
   border: 1px solid #888;
   border-radius: 4px;
   background-color: #fff;
+  
 }

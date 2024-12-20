@@ -11,7 +11,7 @@ import energy from './assets/icons/energy.webp';
 import sklad from './assets/icons/sklad.webp';
 import facture from './assets/icons/facture.webp';
 import infrastucture from './assets/icons/infrastucture.webp';
-
+import MainButton from "./components/MainButton";
 const App = () => {
   const [theme, setTheme] = useState({
     backgroundColor: "#ffffff", // Стандартный белый фон
@@ -19,14 +19,14 @@ const App = () => {
   });
 
   const indicators = [
-    { icon: wheel, value: 42, description: "Влияет на время продажи товара" },
-    { icon: money, value: 42, description: "Ресурс для покупки и использования других ресурсов" },
-    { icon: material, value: 42, description: "Необходим для производства товара" },
-    { icon: human, value: 42, description: "Количество работников определяет максимальное кол-во одновременно производимых товаров" },
-    { icon: energy, value: 42, description: "Необходим для запуска производства товара" },
-    { icon: sklad, value: 42, description: "Определяет максимальное количество производства товаров" },
-    { icon: facture, value: 42, description: "Влияет на время производства товара" },
-    { icon: infrastucture, value: 42, description: "Влияет на потребление ресурсов для производства" },
+    { icon: wheel, name: "Логистика", value: 42, description: "Влияет на время продажи товара" },
+    { icon: money, name: "Деньги", value: 42, description: "Ресурс для покупки и использования других ресурсов" },
+    { icon: material, name: "Материалы", value: 42, description: "Необходим для производства товара" },
+    { icon: human, name: "Работники", value: 42, description: "Количество работников определяет максимальное количество одновременно производимых товаров" },
+    { icon: energy, name: "Энергия", value: 42, description: "Необходима для запуска производства товара" },
+    { icon: sklad, name: "Склад", value: 42, description: "Определяет максимальное количество производства товаров" },
+    { icon: facture, name: "Производство", value: 42, description: "Влияет на время производства товара" },
+    { icon: infrastucture, name: "Инфраструктура", value: 42, description: "Влияет на потребление ресурсов для производства" },
   ];
 
   useEffect(() => {
@@ -58,6 +58,7 @@ const App = () => {
       <SquarePanel />
       <CompanyInfo />
       <SyndicatePanel />
+      <MainButton />
     </div>
   );
 };
