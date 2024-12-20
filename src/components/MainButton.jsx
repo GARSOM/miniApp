@@ -6,58 +6,24 @@ const MainButton = () => {
 
     if (tg) {
       console.log("Telegram WebApp API доступен");
+      tg.ready();
 
-      // BottomButton
-      if (tg.BottomButton) {
-        console.log("BottomButton доступен");
-        tg.BottomButton.setParams({
-          text: "Профиль",
-          color: "#0088cc",
-          textColor: "#ffffff",
-          isVisible: true,
-          isEnabled: true,
-        });
+      tg.MainButton.text = "Профиль";
+      tg.MainButton.color = "#0088cc";
+      tg.MainButton.textColor = "#ffffff";
+      tg.MainButton.show();
 
-        tg.BottomButton.onClick(() => {
-          alert("Кнопка 'Профиль' нажата");
-        });
-      } else {
-        console.warn("BottomButton не поддерживается");
-      }
+      tg.MainButton.onClick(() => {
 
-      // SecondaryButton
-      if (tg.SecondaryButton) {
-        console.log("SecondaryButton доступен");
-        try {
-          if (tg.SecondaryButton.isSupported?.()) {
-            tg.SecondaryButton.setParams({
-              text: "Партнеры",
-              color: "#4caf50",
-              textColor: "#ffffff",
-              isVisible: true,
-              isEnabled: true,
-            });
+      });
 
-            tg.SecondaryButton.onClick(() => {
-              alert("Кнопка 'Партнеры' нажата");
-            });
-          } else {
-            console.warn("SecondaryButton не поддерживается");
-          }
-        } catch (error) {
-          console.error("Ошибка при проверке SecondaryButton:", error);
-        }
-      } else {
-        console.warn("SecondaryButton отсутствует в вашем клиенте");
-      }
     } else {
       console.warn("Telegram WebApp API не доступен");
     }
 
     return () => {
       if (tg) {
-        tg.BottomButton?.hide();
-        tg.SecondaryButton?.hide?.();
+        tg.MainButton.hide();
       }
     };
   }, []);
