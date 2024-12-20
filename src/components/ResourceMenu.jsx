@@ -2,21 +2,22 @@ import React, { useEffect } from "react";
 
 const ResourceMenu = ({ onClose }) => {
   useEffect(() => {
-    const tg = window.Telegram?.WebApp; // Проверяем, существует ли Telegram API
+    const tg = window.Telegram?.WebApp;
+
     if (!tg) {
       console.warn("Telegram WebApp API недоступен");
       return;
     }
 
-    // Настраиваем главную кнопку
+    // Настраиваем главную кнопку Telegram
     tg.MainButton.text = "ОК";
-    tg.MainButton.color = "#36a3f7"; // Синий цвет кнопки
+    tg.MainButton.color = "#4caf50"; // Зелёный цвет
     tg.MainButton.show(); // Показываем кнопку
 
     // Обработка нажатия на кнопку
     const handleClick = () => {
       tg.MainButton.hide();
-      onClose(); // Закрываем попап
+      onClose(); // Закрываем меню ресурса
     };
 
     tg.MainButton.onClick(handleClick);

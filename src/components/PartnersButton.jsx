@@ -2,10 +2,14 @@ import React from "react";
 
 const PartnersButton = () => {
   const handleSendData = () => {
-    const tg = window.Telegram.WebApp;
+    const tg = window.Telegram?.WebApp;
 
-    // Отправляем данные обратно в Telegram
-    tg.sendData(JSON.stringify({ action: "open_partners" }));
+    if (tg) {
+      // Отправляем данные в Telegram
+      tg.sendData(JSON.stringify({ action: "open_partners" }));
+    } else {
+      console.warn("Telegram WebApp API недоступен");
+    }
   };
 
   return (
