@@ -63,13 +63,16 @@ import React, { useEffect } from "react";
 
 const App = () => {
   useEffect(() => {
+    console.log("window.Telegram:", window.Telegram);
+  
     const tg = window.Telegram?.WebApp;
-
     if (tg) {
       console.log("Telegram WebApp API доступен");
+      console.log("tg объект:", tg);
       tg.ready();
     } else {
       console.warn("Telegram WebApp API не доступен");
+      console.log("Полный объект window.Telegram:", window.Telegram);
     }
   }, []);
 
