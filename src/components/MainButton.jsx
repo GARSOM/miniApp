@@ -4,33 +4,23 @@ const MainButton = () => {
   useEffect(() => {
     const tg = window.Telegram?.WebApp;
 
-    if (tg) {
-      console.log("Telegram WebApp API доступен");
-      tg.ready();
-
-      tg.MainButton.text = "Профиль";
-      tg.MainButton.color = "#0088cc";
-      tg.MainButton.textColor = "#ffffff";
-      tg.MainButton.show();
-
-      tg.MainButton.onClick(() => {
-        alert("Главная кнопка нажата");
-      });
-
-      tg.BackButton.show();
-      tg.BackButton.onClick(() => {
-        alert("Кнопка 'Партнеры' нажата");
-      });
-    } else {
+    if (!tg) {
       console.warn("Telegram WebApp API не доступен");
+      return;
     }
 
-    return () => {
-      if (tg) {
-        tg.MainButton.hide();
-        tg.BackButton.hide();
-      }
-    };
+    tg.ready();
+
+    // Настройка главной кнопки
+    tg.MainButton.text = "Профиль";
+    tg.MainButton.color = "#0088cc";
+    tg.MainButton.textColor = "#ffffff";
+    tg.MainButton.show();
+
+    tg.MainButton.onClick(() => {
+      console.log("Кнопка 'Профиль' нажата");
+      tg.close();
+    });
   }, []);
 
   return null;
