@@ -5,6 +5,7 @@ const Popup = ({ icon, name, description, onClose }) => {
     const tg = window.Telegram?.WebApp;
 
     if (tg) {
+      console.log("Telegram WebApp API доступен");
       // Настраиваем главную кнопку Telegram
       tg.MainButton.text = "OK";
       tg.MainButton.color = "#4caf50"; // Зелёный цвет
@@ -13,14 +14,19 @@ const Popup = ({ icon, name, description, onClose }) => {
 
       // Добавляем обработчик клика
       tg.MainButton.onClick(() => {
+        console.log("Кнопка 'OK' нажата");
         onClose();
         tg.MainButton.hide(); // Скрываем кнопку после закрытия
       });
+    } else {
+      console.warn("Telegram WebApp API не доступен");
     }
 
+    // Очищаем кнопку при размонтировании
     return () => {
       if (tg) {
-        tg.MainButton.hide(); // Убираем кнопку при размонтировании
+        tg.MainButton.hide();
+        console.log("MainButton скрыта при размонтировании");
       }
     };
   }, [onClose]);
