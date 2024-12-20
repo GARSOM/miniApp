@@ -1,18 +1,17 @@
 .square-panel {
   display: flex;
   align-items: center;
-  justify-content: flex-start; /* Начинаем с левого края */
-  width: 100%;
+  justify-content: flex-start;
   border: 1px solid #888;
   border-radius: 4px;
   box-sizing: border-box;
-  padding: 5px;
+  margin: 10px;
 }
 
 .square-container {
   display: flex;
   gap: 5px;
-  margin-left: auto; /* Прижимаем к правому краю */
+  margin-left: auto;
 }
 
 .square {

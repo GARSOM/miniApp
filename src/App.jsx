@@ -1,28 +1,18 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import IndicatorPanel from "./components/IndicatorPanel";
 import CompanyInfo from "./components/CompanyInfo";
-import SquarePanel from "./components/SquarePanel";
+import SquarePanel from './components/SquarePanel'
 import SyndicatePanel from "./components/SyndicatePanel";
-import ResourceMenu from "./components/ResourceMenu";
-import PartnersButton from "./components/PartnersButton";
 
-import wheel from "./assets/icons/wheel.webp";
-import money from "./assets/icons/money.webp";
-import material from "./assets/icons/material.webp";
-import human from "./assets/icons/human.webp";
-import energy from "./assets/icons/energy.webp";
-import sklad from "./assets/icons/sklad.webp";
-import facture from "./assets/icons/facture.webp";
-import infrastucture from "./assets/icons/infrastucture.webp";
-
+import wheel from './assets/icons/wheel.webp'
+import money from './assets/icons/money.webp'
+import material from './assets/icons/material.webp'
+import human from './assets/icons/human.webp'
+import energy from './assets/icons/energy.webp'
+import sklad from './assets/icons/sklad.webp'
+import facture from './assets/icons/facture.webp'
+import infrastucture from './assets/icons/infrastucture.webp'
 const App = () => {
-  const [theme, setTheme] = useState({
-    backgroundColor: "#ffffff", // Стандартный белый фон
-    textColor: "#000000", // Стандартный чёрный текст
-  });
-
-  const [isResourceMenuOpen, setResourceMenuOpen] = useState(false);
-
   const indicators = [
     { icon: wheel, value: 42, description: "Влияет на время продажи товара" },
     { icon: money, value: 42, description: "Ресурс для покупки и использования других ресурсов" },
@@ -34,75 +24,13 @@ const App = () => {
     { icon: infrastucture, value: 42, description: "Влияет на потребление ресурсов для производства" },
   ];
 
-  useEffect(() => {
-    const tg = window.Telegram?.WebApp;
-
-    if (tg) {
-      // Инициализация Telegram Web App API
-      tg.ready();
-
-      // Адаптация темы из Telegram
-      const themeParams = tg.themeParams;
-      setTheme({
-        backgroundColor: themeParams.bg_color || "#ffffff",
-        textColor: themeParams.text_color || "#000000",
-      });
-
-      // Скрываем главную кнопку при загрузке
-      tg.MainButton.hide();
-    }
-  }, []);
-
-  const openResourceMenu = () => {
-    setResourceMenuOpen(true);
-
-    const tg = window.Telegram?.WebApp;
-    if (tg) {
-      tg.MainButton.text = "ОК";
-      tg.MainButton.color = "#4caf50"; // Зелёный цвет
-      tg.MainButton.textColor = "#ffffff";
-      tg.MainButton.show();
-
-      tg.MainButton.onClick(() => {
-        setResourceMenuOpen(false);
-        tg.MainButton.hide(); // Скрываем главную кнопку
-      });
-    }
-  };
-
-  const closeResourceMenu = () => {
-    setResourceMenuOpen(false);
-
-    const tg = window.Telegram?.WebApp;
-    if (tg) {
-      tg.MainButton.hide();
-    }
-  };
-
   return (
-    <div
-      style={{
-        backgroundColor: theme.backgroundColor,
-        color: theme.textColor,
-        minHeight: "100vh",
-        padding: "20px",
-      }}
-    >
+    <div >
       <IndicatorPanel indicators={indicators} />
       <SquarePanel />
       <CompanyInfo />
       <SyndicatePanel />
-      {isResourceMenuOpen ? (
-        <ResourceMenu onClose={closeResourceMenu} />
-      ) : (
-        <>
-          {/* Кнопка для открытия меню ресурса */}
-          <button onClick={openResourceMenu}>Открыть Меню Ресурса</button>
 
-          {/* Кнопка "Партнеры" */}
-          <PartnersButton />
-        </>
-      )}
     </div>
   );
 };
