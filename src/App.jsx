@@ -36,26 +36,19 @@ const App = () => {
       console.log("Telegram WebApp API доступен");
       tg.ready();
   
-      // Адаптация темы Telegram
-      const themeParams = tg.themeParams;
-      setTheme({
-        backgroundColor: themeParams.bg_color || "#ffffff",
-        textColor: themeParams.text_color || "#000000",
-      });
-  
-      // Логи для отладки MainButton
-      console.log("Настраиваем MainButton...");
+      // Тест MainButton
       try {
-        tg.MainButton.text = "Тестовая кнопка"; // Устанавливаем текст кнопки
-        tg.MainButton.color = "#0088cc"; // Синий цвет
-        tg.MainButton.textColor = "#ffffff"; // Белый текст
-        tg.MainButton.show(); // Показываем кнопку
-        console.log("MainButton настроен успешно");
+        tg.MainButton.setParams({
+          text: "Тестовая кнопка", // Устанавливаем текст кнопки
+          color: "#0088cc", // Синий цвет
+          text_color: "#ffffff", // Белый текст
+        });
+        tg.MainButton.show();
+        console.log("MainButton успешно отображён");
   
-        // Добавляем обработчик нажатия
         tg.MainButton.onClick(() => {
-          alert("Кнопка нажата!");
-          tg.close(); // Закрываем Web App после нажатия
+          alert("Кнопка работает!");
+          tg.close(); // Закрываем Web App
         });
       } catch (error) {
         console.error("Ошибка при настройке MainButton:", error);
@@ -63,6 +56,13 @@ const App = () => {
     } else {
       console.warn("Telegram WebApp API не доступен");
     }
+    if (tg?.MainButton) {
+      console.log("MainButton доступен");
+    } else {
+      console.warn("MainButton не доступен");
+    }
+    console.log(window.Telegram.WebApp);
+
   }, []);
 
   return (
