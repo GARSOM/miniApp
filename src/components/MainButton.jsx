@@ -17,10 +17,6 @@ const MainButton = () => {
         alert("Главная кнопка нажата");
       });
 
-      tg.BackButton.show();
-      tg.BackButton.onClick(() => {
-        alert("Кнопка 'Партнеры' нажата");
-      });
     } else {
       console.warn("Telegram WebApp API не доступен");
     }
@@ -28,7 +24,6 @@ const MainButton = () => {
     return () => {
       if (tg) {
         tg.MainButton.hide();
-        tg.BackButton.hide();
       }
     };
   }, []);

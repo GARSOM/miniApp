@@ -20,8 +20,8 @@ const SyndicatePanel = () => {
           <div className="progress-fill" style={{ width: "80%" }}></div>
         </div>
       </div>
-      {/* <div className="partners-box">ПАРТНЕРЫ - 10</div>
-      <div className="profile-box">ПРОФИЛЬ</div> */}
+       <div className="partners-box">ПАРТНЕРЫ - 10</div>
+      {/* <div className="profile-box">ПРОФИЛЬ</div>  */}
     </div>
   );
 };
