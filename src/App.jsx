@@ -28,6 +28,30 @@ const App = () => {
     { icon: facture, name: "Производство", value: 42, description: "Влияет на время производства товара" },
     { icon: infrastucture, name: "Инфраструктура", value: 42, description: "Влияет на потребление ресурсов для производства" },
   ];
+  useEffect(() => {
+    const tg = window.Telegram?.WebApp;
+  
+    if (tg) {
+      console.log("Telegram WebApp API доступен");
+      tg.ready();
+    } else {
+      console.warn("Telegram WebApp API не доступен");
+      console.warn("Проверьте настройки домена и запуск через Telegram");
+    }
+  }, []);
+
+  useEffect(() => {
+    const tg = window.Telegram?.WebApp;
+  
+    if (tg) {
+      tg.ready();
+      tg.MainButton.text = "Профиль";
+      tg.MainButton.show();
+    }
+  }, []);
+
+
+
 
   useEffect(() => {
     const tg = window.Telegram?.WebApp;
