@@ -56,12 +56,6 @@ const App = () => {
     } else {
       console.warn("Telegram WebApp API не доступен");
     }
-    if (tg?.MainButton) {
-      console.log("MainButton доступен");
-    } else {
-      console.warn("MainButton не доступен");
-    }
-    console.log(window.Telegram.WebApp);
 
   }, []);
 
