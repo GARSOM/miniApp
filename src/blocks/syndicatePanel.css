@@ -43,14 +43,14 @@
 
 .progress-bar {
   position: relative;
-  height: 25px;
+  height: 30px;
   border: 1px solid #888;
   border-radius: 4px;
   background-color: #f0f0f0;
   overflow: hidden;
   display: flex;
   align-items: center;
-  font-size: 12px;
+  font-size: 14px;
   color: #000;
   z-index: 1;
   /* Текст выше всего */
@@ -95,4 +95,57 @@
 
 .profile-box {
   background-color: #cce5ff;
+}
+
+.buttons-container {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  justify-content: center;
+  width: 100%;
+  /* Кнопки растягиваются на ширину контейнера */
+}
+
+.telegram-button {
+  display: block;
+  width: 100%;
+  /* Полная ширина родительского контейнера */
+  padding: 12px 0;
+  font-size: 16px;
+  font-weight: bold;
+  text-align: center;
+  color: #ffffff;
+  background-color: #0088cc;
+  /* Синий цвет кнопки */
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+  box-sizing: border-box;
+  /* Учитывать padding при ширине */
+}
+
+.telegram-button:hover {
+  background-color: #0077b3;
+  /* Темнее при наведении */
+}
+
+.telegram-button:active {
+  transform: scale(0.98);
+  /* Эффект нажатия */
+}
+
+.syndicate-block {
+  padding: 15px;
+  background-color: #fcaee1;
+  /* Светлый фон */
+  border: 1px solid #ddd;
+  /* Светлая рамка */
+  border-radius: 8px;
+  font-size: 16px;
+  font-weight: bold;
+  text-align: center;
+  color: #333;
+  /* Тёмный текст */
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }

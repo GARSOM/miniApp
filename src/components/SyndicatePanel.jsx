@@ -5,10 +5,10 @@ const SyndicatePanel = () => {
     <div className="syndicate-panel">
       {/* Заголовок фабрики */}
       <p className="factory-title">ФАБРИКА (55%)</p>
-
-      {/* СИНДИКАТ */}
-      {/* <div className="syndicate-box">СИНДИКАТ "МОНОПОЛИЯ"</div> */}
-
+      {/* Синдикат 'Монополия' */}
+      <div className="syndicate-block">
+        Синдикат "Монополия"
+      </div>
       {/* Прогресс бары */}
       <div className="progress-container">
         <div className="progress-bar purple">
@@ -20,8 +20,22 @@ const SyndicatePanel = () => {
           <div className="progress-fill" style={{ width: "80%" }}></div>
         </div>
       </div>
-       <div className="partners-box">ПАРТНЕРЫ - 10</div>
-      {/* <div className="profile-box">ПРОФИЛЬ</div>  */}
+
+      {/* Кнопки */}
+      <div className="buttons-container">
+        <button
+          className="telegram-button"
+
+        >
+          Партнеры
+        </button>
+        <button
+          className="telegram-button"
+        // onClick={() => alert("Кнопка 'Профиль' нажата!")}
+        >
+          Профиль
+        </button>
+      </div>
     </div>
   );
 };
