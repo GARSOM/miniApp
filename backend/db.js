@@ -32,9 +32,8 @@ db.serialize(() => {
   );
 });
 
-module.exports = db;
 // Проверка регистрации пользователя
-const isUserRegistered = (tgId, callback) => {
+db.isUserRegistered = (tgId, callback) => {
   db.get(`SELECT * FROM players WHERE tg_id = ?`, [tgId], (err, row) => {
     if (err) {
       console.error("Ошибка проверки регистрации:", err.message);
@@ -45,5 +44,4 @@ const isUserRegistered = (tgId, callback) => {
   });
 };
 
-
-module.exports = { db, isUserRegistered };
+module.exports = db;

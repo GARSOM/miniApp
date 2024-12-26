@@ -7,16 +7,12 @@ router.get("/check-registration", (req, res) => {
   if (!tg_id) {
     return res.status(400).json({ error: "tg_id не указан" });
   }
-  const query = `SELECT * FROM players WHERE tg_id = ?`;
-  db.get(query, [tg_id], (err, row) => {
+
+  db.isUserRegistered(tg_id, (err, registered) => {
     if (err) {
-      console.error("Ошибка базы данных:", err.message);
-      res.status(500).json({ error: "Ошибка базы данных" });
-    } else if (row) {
-      res.json({ registered: true });
-    } else {
-      res.json({ registered: false });
+      return res.status(500).json({ error: "Ошибка базы данных" });
     }
+    res.json({ registered });
   });
 });
 // Регистрация пользователя
@@ -58,14 +54,5 @@ router.delete("/delete", (req, res) => {
     }
   });
 });
-router.get("/test-db", (req, res) => {
-  db.all(`SELECT * FROM players`, (err, rows) => {
-    if (err) {
-      console.error("Ошибка выборки данных:", err.message);
-      res.status(500).json({ error: "Ошибка выборки данных" });
-    } else {
-      res.json({ players: rows });
-    }
-  });
-});
+
 module.exports = router;
