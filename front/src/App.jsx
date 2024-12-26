@@ -11,6 +11,7 @@ import energy from './assets/icons/energy.webp';
 import sklad from './assets/icons/sklad.webp';
 import facture from './assets/icons/facture.webp';
 import infrastucture from './assets/icons/infrastucture.webp';
+import Registration from "./components/Registration";
 const App = () => {
   const [theme, setTheme] = useState({
     backgroundColor: "#ffffff", // Стандартный белый фон
@@ -42,6 +43,7 @@ const App = () => {
       <SquarePanel />
       <CompanyInfo />
       <SyndicatePanel />
+      <Registration />
     </div>
   );
 };
