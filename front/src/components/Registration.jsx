@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-
 import img1 from "../assets/images/img1.webp";
 import img2 from "../assets/images/img2.webp";
 import img3 from "../assets/images/img3.webp";
@@ -8,35 +7,46 @@ import img5 from "../assets/images/img5.webp";
 import img6 from "../assets/images/img6.webp";
 
 const Registration = ({ onRegister }) => {
+  // Состояния для хранения данных регистрации
   const [tgId, setTgId] = useState(null);
+  const [userName, setUserName] = useState("");
   const [companyName, setCompanyName] = useState("");
   const [selectedImage, setSelectedImage] = useState(img1);
 
+  // Массив доступных изображений
   const images = [img1, img2, img3, img4, img5, img6];
 
-  // Получение tg_id пользователя
+  // Получение данных пользователя из Telegram WebApp
   useEffect(() => {
     const tg = window.Telegram?.WebApp?.initDataUnsafe?.user;
-    if (tg && tg.id) {
+    if (tg) {
       setTgId(tg.id);
+      setUserName(tg.first_name || "");
     }
   }, []);
 
+  // Обработчик выбора изображения
   const handleImageSelect = (image) => {
     setSelectedImage(image);
   };
 
+  // Обработчик регистрации
   const handleRegister = () => {
     if (!companyName) {
       alert("Введите название компании!");
       return;
     }
+
     const registrationData = {
-      tg_id: tgId,
-      company_name: companyName,
-      company_image: selectedImage,
+      tg_id: tgId, // Telegram ID пользователя
+      name: userName, // Имя пользователя из Telegram
+      company_name: companyName, // Название компании
+      company_image: selectedImage, // Выбранное изображение компании
+      registration_date: new Date().toISOString(), // Дата регистрации
     };
-    onRegister(registrationData); // Передача данных в родительский компонент или на сервер
+    console.log(registrationData)
+    // Передача данных в родительский компонент
+    onRegister(registrationData);
   };
 
   return (
@@ -45,6 +55,7 @@ const Registration = ({ onRegister }) => {
       <p>Заполните информацию о вашем предприятии</p>
 
       {tgId && <p className="tg-id">Ваш Telegram ID: {tgId}</p>}
+      {userName && <p className="user-name">Ваше имя: {userName}</p>}
 
       <input
         type="text"
@@ -64,8 +75,7 @@ const Registration = ({ onRegister }) => {
             src={image}
             alt={`Выбор ${index + 1}`}
             onClick={() => handleImageSelect(image)}
-            className={`gallery-image ${selectedImage === image ? "selected" : ""
-              }`}
+            className={`gallery-image ${selectedImage === image ? "selected" : ""}`}
           />
         ))}
       </div>
