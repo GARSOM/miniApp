@@ -2,9 +2,7 @@ const express = require("express");
 const db = require("./db");
 
 const router = express.Router();
-app.get("/", (req, res) => {
-  res.send("Server is running!");
-});
+
 // Регистрация пользователя
 router.post("/register", (req, res) => {
   const { tg_id, name, company_name, company_image } = req.body;
