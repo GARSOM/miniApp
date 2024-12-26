@@ -12,6 +12,8 @@ import sklad from './assets/icons/sklad.webp';
 import facture from './assets/icons/facture.webp';
 import infrastucture from './assets/icons/infrastucture.webp';
 import Registration from "./components/Registration";
+import { registerUser } from './api'; // Импорт функции API для отправки запроса
+
 const App = () => {
   const [theme, setTheme] = useState({
     backgroundColor: "#ffffff", // Стандартный белый фон
@@ -29,6 +31,16 @@ const App = () => {
     { icon: infrastucture, name: "Инфраструктура", value: 42, description: "Влияет на потребление ресурсов для производства" },
   ];
 
+  const handleRegister = async (registrationData) => {
+    try {
+      const response = await registerUser(registrationData);
+      console.log("Регистрация успешна:", response.data);
+      alert("Регистрация прошла успешно!");
+    } catch (error) {
+      console.error("Ошибка при регистрации:", error);
+      alert("Не удалось зарегистрироваться. Попробуйте снова.");
+    }
+  };
 
   return (
     <div
@@ -43,7 +55,7 @@ const App = () => {
       <SquarePanel />
       <CompanyInfo />
       <SyndicatePanel />
-      <Registration />
+      <Registration onRegister={handleRegister} /> {/* Передача функции onRegister */}
     </div>
   );
 };
