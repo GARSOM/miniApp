@@ -58,5 +58,14 @@ router.delete("/delete", (req, res) => {
     }
   });
 });
-
+router.get("/test-db", (req, res) => {
+  db.all(`SELECT * FROM players`, (err, rows) => {
+    if (err) {
+      console.error("Ошибка выборки данных:", err.message);
+      res.status(500).json({ error: "Ошибка выборки данных" });
+    } else {
+      res.json({ players: rows });
+    }
+  });
+});
 module.exports = router;
