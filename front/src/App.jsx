@@ -32,7 +32,15 @@ const App = () => {
     { icon: facture, name: "Производство", value: 42, description: "Влияет на время производства товара" },
     { icon: infrastucture, name: "Инфраструктура", value: 42, description: "Влияет на потребление ресурсов для производства" },
   ];
-
+  useEffect(() => {
+    const tg = window.Telegram?.WebApp?.initDataUnsafe?.user;
+    if (tg && tg.id) {
+      checkUserRegistration(tg.id);
+    } else {
+      console.error("tg_id не найден в Telegram WebApp");
+    }
+  }, []);
+  
   useEffect(() => {
     const tg = window.Telegram?.WebApp?.initDataUnsafe?.user;
     if (tg && tg.id) {

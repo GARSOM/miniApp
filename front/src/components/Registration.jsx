@@ -51,7 +51,7 @@ const Registration = ({ onRegister }) => {
 
   return (
     <div className="registration-container">
-      <h1>Добро пожаловать!{userName && <p className="user-name">Ваше имя: {userName}</p>}</h1>
+      <h1>Добро пожаловать!, {userName && <p className="user-name">{userName}</p>}</h1>
       <p>Заполните информацию о вашем предприятии</p>
       <input
         type="text"

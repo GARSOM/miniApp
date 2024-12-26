@@ -8,11 +8,13 @@ const api = axios.create({
 
 // Проверка регистрации пользователя
 export const checkUserRegistration = async (tgId) => {
+  console.log("Переданный tg_id:", tgId); // Логируем tgId
   try {
-    const response = await api.get("/check-registration", {
+    const response = await axios.get(`${API_URL}/check-registration`, {
       params: { tg_id: tgId },
     });
-    return response.data.registered; // Ожидается, что сервер возвращает { registered: true/false }
+    console.log("Ответ от сервера:", response.data); // Логируем ответ сервера
+    return response.data.registered; // Предполагается, что API возвращает { registered: true/false }
   } catch (error) {
     console.error("Ошибка при проверке регистрации:", error);
     throw error;
