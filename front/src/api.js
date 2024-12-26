@@ -6,12 +6,39 @@ const api = axios.create({
   baseURL: API_URL,
 });
 
-export const registerUser = (data) => {
-  return api.post("/register", data);
+// Проверка регистрации пользователя
+export const checkUserRegistration = async (tgId) => {
+  try {
+    const response = await api.get("/check-registration", {
+      params: { tg_id: tgId },
+    });
+    return response.data.registered; // Ожидается, что сервер возвращает { registered: true/false }
+  } catch (error) {
+    console.error("Ошибка при проверке регистрации:", error);
+    throw error;
+  }
 };
 
-export const deleteUser = (tg_id) => {
-  return api.delete("/delete", {
-    data: { tg_id },
-  });
+// Регистрация пользователя
+export const registerUser = async (data) => {
+  try {
+    const response = await api.post("/register", data);
+    return response;
+  } catch (error) {
+    console.error("Ошибка при регистрации пользователя:", error);
+    throw error;
+  }
+};
+
+// Удаление пользователя
+export const deleteUser = async (tgId) => {
+  try {
+    const response = await api.delete("/delete", {
+      data: { tg_id: tgId },
+    });
+    return response;
+  } catch (error) {
+    console.error("Ошибка при удалении пользователя:", error);
+    throw error;
+  }
 };

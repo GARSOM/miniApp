@@ -42,5 +42,21 @@ router.delete("/delete", (req, res) => {
     }
   });
 });
+// Проверка регистрации пользователя
+router.get("/check-registration", (req, res) => {
+  const { tg_id } = req.query;
+
+  const query = `SELECT * FROM players WHERE tg_id = ?`;
+  db.get(query, [tg_id], (err, row) => {
+    if (err) {
+      console.error("Ошибка проверки регистрации:", err.message);
+      res.status(500).json({ error: "Ошибка проверки регистрации" });
+    } else if (row) {
+      res.json({ registered: true }); // Пользователь найден
+    } else {
+      res.json({ registered: false }); // Пользователь не найден
+    }
+  });
+});
 
 module.exports = router;

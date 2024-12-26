@@ -12,13 +12,15 @@ import sklad from './assets/icons/sklad.webp';
 import facture from './assets/icons/facture.webp';
 import infrastucture from './assets/icons/infrastucture.webp';
 import Registration from "./components/Registration";
-import { registerUser } from './api'; // Импорт функции API для отправки запроса
+import { registerUser, checkUserRegistration } from './api'; // Импорт функций API
 
 const App = () => {
   const [theme, setTheme] = useState({
     backgroundColor: "#ffffff", // Стандартный белый фон
     textColor: "#000000", // Стандартный чёрный текст
   });
+  const [isRegistered, setIsRegistered] = useState(false);
+  const [loading, setLoading] = useState(true);
 
   const indicators = [
     { icon: wheel, name: "Логистика", value: 42, description: "Влияет на время продажи товара" },
@@ -31,16 +33,40 @@ const App = () => {
     { icon: infrastucture, name: "Инфраструктура", value: 42, description: "Влияет на потребление ресурсов для производства" },
   ];
 
+  useEffect(() => {
+    const tg = window.Telegram?.WebApp?.initDataUnsafe?.user;
+    if (tg && tg.id) {
+      checkUserRegistration(tg.id)
+        .then((registered) => {
+          setIsRegistered(registered);
+        })
+        .catch((err) => {
+          console.error("Ошибка проверки регистрации:", err);
+          setIsRegistered(false);
+        })
+        .finally(() => {
+          setLoading(false);
+        });
+    } else {
+      setLoading(false);
+    }
+  }, []);
+
   const handleRegister = async (registrationData) => {
     try {
       const response = await registerUser(registrationData);
       console.log("Регистрация успешна:", response.data);
       alert("Регистрация прошла успешно!");
+      setIsRegistered(true);
     } catch (error) {
       console.error("Ошибка при регистрации:", error);
       alert("Не удалось зарегистрироваться. Попробуйте снова.");
     }
   };
+
+  if (loading) {
+    return <div>Загрузка...</div>;
+  }
 
   return (
     <div
@@ -51,11 +77,16 @@ const App = () => {
         padding: "20px",
       }}
     >
-      <IndicatorPanel indicators={indicators} />
-      <SquarePanel />
-      <CompanyInfo />
-      <SyndicatePanel />
-      <Registration onRegister={handleRegister} /> {/* Передача функции onRegister */}
+      {isRegistered ? (
+        <>
+          <IndicatorPanel indicators={indicators} />
+          <SquarePanel />
+          <CompanyInfo />
+          <SyndicatePanel />
+        </>
+      ) : (
+        <Registration onRegister={handleRegister} />
+      )}
     </div>
   );
 };

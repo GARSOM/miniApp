@@ -51,12 +51,8 @@ const Registration = ({ onRegister }) => {
 
   return (
     <div className="registration-container">
-      <h1>Добро пожаловать!</h1>
+      <h1>Добро пожаловать!{userName && <p className="user-name">Ваше имя: {userName}</p>}</h1>
       <p>Заполните информацию о вашем предприятии</p>
-
-      {tgId && <p className="tg-id">Ваш Telegram ID: {tgId}</p>}
-      {userName && <p className="user-name">Ваше имя: {userName}</p>}
-
       <input
         type="text"
         placeholder="Введите название компании"
