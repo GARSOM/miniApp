@@ -11,9 +11,7 @@ app.use(cors());
 // Подключаем маршруты
 const routes = require("./routes");
 app.use("/api", routes);
-app.get("/", (req, res) => {
-  res.send("Server is running!");
-});
+
 // Запуск сервера
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {
