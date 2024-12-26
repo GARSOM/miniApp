@@ -50,7 +50,7 @@ const Registration = ({ onRegister }) => {
 
   return (
     <div className="registration-container">
-      <h1>Добро пожаловать!, {userName}</h1>
+      <h1>Добро пожаловать, {userName}</h1>
       <p>Заполните информацию о вашем предприятии</p>
       <input
         type="text"
@@ -59,8 +59,6 @@ const Registration = ({ onRegister }) => {
         onChange={(e) => setCompanyName(e.target.value)}
         className="input-field"
       />
-
-      <h3>Выбранное фото</h3>
       <img src={selectedImage} alt="Выбранное фото" className="selected-image" />
 
       <div className="image-gallery">

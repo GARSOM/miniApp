@@ -1,66 +1,65 @@
 .registration-container {
-    text-align: center;
-    padding: 20px;
-  }
-  
-  .tg-id {
-    font-size: 14px;
-    margin-bottom: 10px;
-    color: #666;
-  }
-  
-  .input-field {
-    padding: 10px;
-    font-size: 16px;
-    margin-bottom: 20px;
-    display: block;
-    width: 80%;
-    margin: 0 auto;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-  }
-  
-  .selected-image {
-    width: 200px;
-    height: 200px;
-    border-radius: 10px;
-    margin-bottom: 20px;
-    border: 2px solid #000;
-  }
-  
-  .image-gallery {
-    display: flex;
-    justify-content: center;
-    flex-wrap: wrap;
-    gap: 10px;
-  }
-  
-  .gallery-image {
-    width: 80px;
-    height: 80px;
-    border-radius: 5px;
-    border: 2px solid #ccc;
-    cursor: pointer;
-    transition: border-color 0.3s;
-  }
-  
-  .gallery-image.selected {
-    border: 3px solid #4caf50;
-  }
-  
-  .register-button {
-    margin-top: 20px;
-    padding: 10px 20px;
-    font-size: 16px;
-    background-color: #4caf50;
-    color: #fff;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    transition: background-color 0.3s;
-  }
-  
-  .register-button:hover {
-    background-color: #45a049;
-  }
-  
+  text-align: center;
+  padding: 20px;
+}
+
+.tg-id {
+  font-size: 14px;
+  margin-bottom: 10px;
+  color: #666;
+}
+
+.input-field {
+  padding: 10px;
+  font-size: 16px;
+  margin-bottom: 20px;
+  display: block;
+  width: 80%;
+  margin: 0 auto;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+.selected-image {
+  width: 200px;
+  height: 200px;
+  border-radius: 10px;
+  margin-bottom: 20px;
+  border: 2px solid #000;
+}
+
+.image-gallery {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.gallery-image {
+  width: 80px;
+  height: 80px;
+  border-radius: 5px;
+  border: 2px solid #ccc;
+  cursor: pointer;
+  transition: border-color 0.3s;
+}
+
+.gallery-image.selected {
+  border: 3px solid #27a7e7;
+}
+
+.register-button {
+  margin-top: 20px;
+  padding: 10px 20px;
+  font-size: 16px;
+  background-color: #4caf50;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.register-button:hover {
+  background-color: #45a049;
+}
