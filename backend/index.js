@@ -13,7 +13,7 @@ const routes = require("./routes");
 app.use("/api", routes);
 
 // Запуск сервера
-const PORT = process.env.PORT || 3001;
+const PORT = process.env.PORT || 8080;
 app.listen(PORT, () => {
   console.log(`Сервер запущен на http://localhost:${PORT}`);
   console.log(`PORT из Railway: ${process.env.PORT}`);
