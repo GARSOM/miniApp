@@ -8,6 +8,7 @@ import img6 from "../assets/images/img6.webp";
 import Popup from "./Popup"; // Импортируем Popup
 
 const Registration = ({ onRegister }) => {
+  // Состояния для хранения данных регистрации
   const [tgId, setTgId] = useState(null);
   const [userName, setUserName] = useState("");
   const [companyName, setCompanyName] = useState("");
@@ -18,8 +19,10 @@ const Registration = ({ onRegister }) => {
     message: "",
   });
 
+  // Массив доступных изображений
   const images = [img1, img2, img3, img4, img5, img6];
 
+  // Получение данных пользователя из Telegram WebApp
   useEffect(() => {
     const tg = window.Telegram?.WebApp?.initDataUnsafe?.user;
     if (tg) {
@@ -28,10 +31,12 @@ const Registration = ({ onRegister }) => {
     }
   }, []);
 
+  // Обработчик выбора изображения
   const handleImageSelect = (image) => {
     setSelectedImage(image);
   };
 
+  // Обработчик регистрации
   const handleRegister = () => {
     if (!companyName) {
       setPopup({
@@ -72,6 +77,7 @@ const Registration = ({ onRegister }) => {
       return;
     }
 
+    // Если регистрация успешна
     setPopup({
       isOpen: true,
       title: "Сообщение",
@@ -79,11 +85,11 @@ const Registration = ({ onRegister }) => {
     });
 
     const registrationData = {
-      tg_id: tgId,
-      name: userName,
-      company_name: companyName,
-      company_image: selectedImage,
-      registration_date: new Date().toISOString(),
+      tg_id: tgId, // Telegram ID пользователя
+      name: userName, // Имя пользователя из Telegram
+      company_name: companyName, // Название компании
+      company_image: selectedImage, // Выбранное изображение компании
+      registration_date: new Date().toISOString(), // Дата регистрации
     };
 
     onRegister(registrationData);
@@ -122,13 +128,12 @@ const Registration = ({ onRegister }) => {
         Продолжить
       </button>
 
-      {popup.isOpen && (
-        <Popup
-          title={popup.title}
-          message={popup.message}
-          onClose={() => setPopup({ ...popup, isOpen: false })}
-        />
-      )}
+      <Popup
+        title={popup.title}
+        message={popup.message}
+        onClose={() => setPopup({ ...popup, isOpen: false })}
+        isOpen={popup.isOpen}
+      />
     </div>
   );
 };
