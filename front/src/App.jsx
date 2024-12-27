@@ -59,7 +59,7 @@ const App = () => {
     } else {
       setLoading(false);
     }
-  }, []);
+  }, [isRegistered]); // Добавлен isRegistered в зависимости, чтобы обновления отражались без перезагрузки.
 
   const handleRegister = async (registrationData) => {
     try {
