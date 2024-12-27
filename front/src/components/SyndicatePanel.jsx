@@ -3,13 +3,10 @@ import React from "react";
 const SyndicatePanel = () => {
   return (
     <div className="syndicate-panel">
-      {/* Заголовок фабрики */}
       <p className="factory-title">ФАБРИКА (55%)</p>
-      {/* Синдикат 'Монополия' */}
-      <div className="syndicate-block">
+      {/* <div className="syndicate-block">
         Синдикат "Монополия"
-      </div>
-      {/* Прогресс бары */}
+      </div> */}
       <div className="progress-container">
         <div className="progress-bar purple">
           <span>3 Товара через 5 минут</span>
@@ -20,8 +17,6 @@ const SyndicatePanel = () => {
           <div className="progress-fill" style={{ width: "80%" }}></div>
         </div>
       </div>
-
-      {/* Кнопки */}
       <div className="buttons-container">
         <button
           className="telegram-button"
