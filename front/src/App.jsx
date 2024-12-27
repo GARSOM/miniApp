@@ -1,3 +1,4 @@
+// App.jsx
 import React, { useEffect, useState } from "react";
 import IndicatorPanel from "./components/IndicatorPanel";
 import CompanyInfo from "./components/CompanyInfo";
@@ -12,7 +13,7 @@ import sklad from './assets/icons/sklad.webp';
 import facture from './assets/icons/facture.webp';
 import infrastucture from './assets/icons/infrastucture.webp';
 import Registration from "./components/Registration";
-import { registerUser, checkUserRegistration } from './api'; // Импорт функций API
+import { registerUser, checkUserRegistration, getCompanyInfo } from './api'; // Импорт функций API
 
 const App = () => {
   const [theme, setTheme] = useState({
@@ -21,6 +22,7 @@ const App = () => {
   });
   const [isRegistered, setIsRegistered] = useState(false);
   const [loading, setLoading] = useState(true);
+  const [companyInfo, setCompanyInfo] = useState(null);
 
   const indicators = [
     { icon: wheel, name: "Логистика", value: 42, description: "Влияет на время продажи товара" },
@@ -35,21 +37,20 @@ const App = () => {
   useEffect(() => {
     const tg = window.Telegram?.WebApp?.initDataUnsafe?.user;
     if (tg && tg.id) {
-      checkUserRegistration(tg.id);
-    } else {
-      console.error("tg_id не найден в Telegram WebApp");
-    }
-  }, []);
-  
-  useEffect(() => {
-    const tg = window.Telegram?.WebApp?.initDataUnsafe?.user;
-    if (tg && tg.id) {
       checkUserRegistration(tg.id)
         .then((registered) => {
           setIsRegistered(registered);
+          if (registered) {
+            return getCompanyInfo(tg.id);
+          }
+        })
+        .then((data) => {
+          if (data) {
+            setCompanyInfo(data);
+          }
         })
         .catch((err) => {
-          console.error("Ошибка проверки регистрации:", err);
+          console.error("Ошибка проверки регистрации или загрузки данных компании:", err);
           setIsRegistered(false);
         })
         .finally(() => {
@@ -89,7 +90,10 @@ const App = () => {
         <>
           <IndicatorPanel indicators={indicators} />
           <SquarePanel />
-          <CompanyInfo />
+          <CompanyInfo 
+            name={companyInfo?.company_name} 
+            image={companyInfo?.company_image} 
+          />
           <SyndicatePanel />
         </>
       ) : (

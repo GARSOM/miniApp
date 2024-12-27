@@ -1,7 +1,23 @@
 const express = require("express");
 const db = require("./db");
-
 const router = express.Router();
+
+router.get("/company-info", (req, res) => {
+  const { tg_id } = req.query;
+  const query = `SELECT company_name, company_image FROM players WHERE tg_id = ?`;
+
+  db.get(query, [tg_id], (err, row) => {
+    if (err) {
+      console.error("Ошибка базы данных:", err.message);
+      res.status(500).json({ error: "Ошибка базы данных" });
+    } else if (!row) {
+      res.status(404).json({ error: "Компания не найдена" });
+    } else {
+      res.json(row);
+    }
+  });
+});
+
 router.get("/check-registration", (req, res) => {
   const { tg_id } = req.query;
   if (!tg_id) {

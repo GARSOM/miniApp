@@ -5,6 +5,17 @@ const API_URL = "https://miniapp-production-f83c.up.railway.app/api";
 const api = axios.create({
   baseURL: API_URL,
 });
+export const getCompanyInfo = async (tgId) => {
+  try {
+    const response = await axios.get(`${API_URL}/company-info`, {
+      params: { tg_id: tgId },
+    });
+    return response.data;
+  } catch (error) {
+    console.error("Ошибка при получении информации о компании:", error);
+    throw error;
+  }
+};
 
 // Проверка регистрации пользователя
 export const checkUserRegistration = async (tgId) => {
