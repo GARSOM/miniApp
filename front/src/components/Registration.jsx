@@ -5,6 +5,7 @@ import img3 from "../assets/images/img3.webp";
 import img4 from "../assets/images/img4.webp";
 import img5 from "../assets/images/img5.webp";
 import img6 from "../assets/images/img6.webp";
+import Popup from "./Popup"; // Импортируем Popup
 
 const Registration = ({ onRegister }) => {
   // Состояния для хранения данных регистрации
@@ -12,6 +13,11 @@ const Registration = ({ onRegister }) => {
   const [userName, setUserName] = useState("");
   const [companyName, setCompanyName] = useState("");
   const [selectedImage, setSelectedImage] = useState(img1);
+  const [popup, setPopup] = useState({
+    isOpen: false,
+    title: "",
+    message: "",
+  });
 
   // Массив доступных изображений
   const images = [img1, img2, img3, img4, img5, img6];
@@ -33,9 +39,50 @@ const Registration = ({ onRegister }) => {
   // Обработчик регистрации
   const handleRegister = () => {
     if (!companyName) {
-      alert("Введите название компании!");
+      setPopup({
+        isOpen: true,
+        title: "Ошибка",
+        message: "Введите название компании!",
+      });
       return;
     }
+
+    if (companyName.length < 4) {
+      setPopup({
+        isOpen: true,
+        title: "Ошибка",
+        message: "Название должно состоять хотя бы из 4 символов.",
+      });
+      return;
+    }
+
+    const isValidName = /^[a-zA-Z0-9]+$/.test(companyName);
+    if (!isValidName) {
+      setPopup({
+        isOpen: true,
+        title: "Ошибка",
+        message: "Название предприятия должно содержать только буквы и/или цифры.",
+      });
+      return;
+    }
+
+    // Пример проверки на дублирование (здесь должно быть реальное API)
+    const isDuplicate = false; // Пример проверки
+    if (isDuplicate) {
+      setPopup({
+        isOpen: true,
+        title: "Ошибка",
+        message: "Предприятие с таким названием уже существует.",
+      });
+      return;
+    }
+
+    // Если регистрация успешна
+    setPopup({
+      isOpen: true,
+      title: "Сообщение",
+      message: "Регистрация прошла успешно!",
+    });
 
     const registrationData = {
       tg_id: tgId, // Telegram ID пользователя
@@ -44,13 +91,15 @@ const Registration = ({ onRegister }) => {
       company_image: selectedImage, // Выбранное изображение компании
       registration_date: new Date().toISOString(), // Дата регистрации
     };
-    // Передача данных в родительский компонент
+
     onRegister(registrationData);
   };
 
   return (
     <div className="registration-container">
-      <h1>Добро пожаловать, {userName}</h1>
+      <h1 className="welcome-header">
+        Добро пожаловать, {userName}
+      </h1>
       <input
         type="text"
         placeholder="Введите название компании"
@@ -72,9 +121,19 @@ const Registration = ({ onRegister }) => {
         ))}
       </div>
 
-      <button onClick={handleRegister} className="register-button">
+      <button
+        onClick={handleRegister}
+        className="register-button"
+      >
         Продолжить
       </button>
+
+      <Popup
+        title={popup.title}
+        message={popup.message}
+        onClose={() => setPopup({ ...popup, isOpen: false })}
+        isOpen={popup.isOpen}
+      />
     </div>
   );
 };

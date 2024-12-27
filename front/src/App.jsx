@@ -74,7 +74,22 @@ const App = () => {
   };
 
   if (loading) {
-    return <div>Загрузка...</div>;
+    return (
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          minHeight: "100vh",
+          backgroundColor: theme.backgroundColor,
+          color: theme.textColor,
+          fontSize: "18px",
+          fontWeight: "bold",
+        }}
+      >
+        Загрузка...
+      </div>
+    );
   }
 
   return (
