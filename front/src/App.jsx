@@ -95,15 +95,16 @@ const App = () => {
         backgroundColor: theme.backgroundColor,
         color: theme.textColor,
         minHeight: "100vh",
+        padding: '10px'
       }}
     >
       {isRegistered ? (
         <>
           <IndicatorPanel indicators={indicators} />
           <SquarePanel />
-          <CompanyInfo 
-            name={companyInfo?.company_name} 
-            image={companyInfo?.company_image} 
+          <CompanyInfo
+            name={companyInfo?.company_name}
+            image={companyInfo?.company_image}
           />
           <SyndicatePanel />
         </>
