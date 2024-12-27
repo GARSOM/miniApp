@@ -1,19 +1,10 @@
-// App.jsx
 import React, { useEffect, useState } from "react";
 import IndicatorPanel from "./components/IndicatorPanel";
 import CompanyInfo from "./components/CompanyInfo";
-import SquarePanel from './components/SquarePanel';
+import SquarePanel from "./components/SquarePanel";
 import SyndicatePanel from "./components/SyndicatePanel";
-import wheel from './assets/icons/wheel.webp';
-import money from './assets/icons/money.webp';
-import material from './assets/icons/material.webp';
-import human from './assets/icons/human.webp';
-import energy from './assets/icons/energy.webp';
-import sklad from './assets/icons/sklad.webp';
-import facture from './assets/icons/facture.webp';
-import infrastucture from './assets/icons/infrastucture.webp';
 import Registration from "./components/Registration";
-import { registerUser, checkUserRegistration, getCompanyInfo } from './api'; // Импорт функций API
+import { registerUser, checkUserRegistration, getCompanyInfo } from "./api";
 
 const App = () => {
   const [theme, setTheme] = useState({
@@ -24,16 +15,31 @@ const App = () => {
   const [loading, setLoading] = useState(true);
   const [companyInfo, setCompanyInfo] = useState(null);
 
-  const indicators = [
-    { icon: wheel, name: "Логистика", value: 42, description: "Влияет на время продажи товара" },
-    { icon: money, name: "Деньги", value: 42, description: "Ресурс для покупки и использования других ресурсов" },
-    { icon: material, name: "Материалы", value: 42, description: "Необходим для производства товара" },
-    { icon: human, name: "Работники", value: 42, description: "Количество работников определяет максимальное количество одновременно производимых товаров" },
-    { icon: energy, name: "Энергия", value: 42, description: "Необходима для запуска производства товара" },
-    { icon: sklad, name: "Склад", value: 42, description: "Определяет максимальное количество производства товаров" },
-    { icon: facture, name: "Производство", value: 42, description: "Влияет на время производства товара" },
-    { icon: infrastucture, name: "Инфраструктура", value: 42, description: "Влияет на потребление ресурсов для производства" },
-  ];
+  useEffect(() => {
+    const tg = window.Telegram?.WebApp;
+
+    if (tg) {
+      // Устанавливаем тему из Telegram WebApp
+      const themeParams = tg.themeParams || {};
+      setTheme({
+        backgroundColor: themeParams.bg_color || "#ffffff",
+        textColor: themeParams.text_color || "#000000",
+      });
+
+      // Следим за изменением темы
+      tg.onEvent("themeChanged", () => {
+        const updatedThemeParams = tg.themeParams || {};
+        setTheme({
+          backgroundColor: updatedThemeParams.bg_color || "#ffffff",
+          textColor: updatedThemeParams.text_color || "#000000",
+        });
+      });
+
+      // Помечаем Telegram WebApp как готовый
+      tg.ready();
+    }
+  }, []);
+
   useEffect(() => {
     const tg = window.Telegram?.WebApp?.initDataUnsafe?.user;
     if (tg && tg.id) {
@@ -59,17 +65,14 @@ const App = () => {
     } else {
       setLoading(false);
     }
-  }, [isRegistered]); // Добавлен isRegistered в зависимости, чтобы обновления отражались без перезагрузки.
+  }, []);
 
   const handleRegister = async (registrationData) => {
     try {
-      const response = await registerUser(registrationData);
-      console.log("Регистрация успешна:", response.data);
-      alert("Регистрация прошла успешно!");
+      await registerUser(registrationData);
       setIsRegistered(true);
     } catch (error) {
       console.error("Ошибка при регистрации:", error);
-      alert("Не удалось зарегистрироваться. Попробуйте снова.");
     }
   };
 
@@ -98,16 +101,15 @@ const App = () => {
         backgroundColor: theme.backgroundColor,
         color: theme.textColor,
         minHeight: "100vh",
-        padding: "20px",
       }}
     >
       {isRegistered ? (
         <>
-          <IndicatorPanel indicators={indicators} />
+          <IndicatorPanel />
           <SquarePanel />
-          <CompanyInfo 
-            name={companyInfo?.company_name} 
-            image={companyInfo?.company_image} 
+          <CompanyInfo
+            name={companyInfo?.company_name}
+            image={companyInfo?.company_image}
           />
           <SyndicatePanel />
         </>
