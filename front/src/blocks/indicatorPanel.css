@@ -53,3 +53,27 @@
   margin: 0 auto; /* Центрирование кнопки по горизонтали */
   text-align: center; /* Центрирование текста внутри кнопки */
 }
+/* Медиа-запрос для уменьшения размеров при высоте экрана менее 670px */
+@media screen and (max-height: 670px) {
+  .indicator-panel .icon-box  {
+    width: 30px; /* Уменьшаем ширину */
+    padding: 5px;
+    height: 25px; /* Уменьшаем высоту */
+  }
+
+  .icon-container {
+    gap: 10px; /* Уменьшаем расстояние между иконками */
+
+  }
+
+  .development-button {
+    max-width: 150px; /* Уменьшаем кнопку */
+    height: 35px;
+  }
+  .icon-box img {
+    max-width: 100%;
+    max-height: 70%;
+    object-fit: contain;
+    /* Масштабирование иконок */
+  }
+}
