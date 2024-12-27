@@ -20,7 +20,7 @@ const App = () => {
     backgroundColor: "#ffffff", // Стандартный белый фон
     textColor: "#000000", // Стандартный чёрный текст
   });
-  const [isRegistered, setIsRegistered] = useState(true);
+  const [isRegistered, setIsRegistered] = useState(false);
   const [loading, setLoading] = useState(true);
   const [companyInfo, setCompanyInfo] = useState(null);
 
