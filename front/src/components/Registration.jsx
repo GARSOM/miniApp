@@ -22,6 +22,12 @@ const Registration = ({ onRegister }) => {
   const images = [img1, img2, img3, img4, img5, img6];
 
   useEffect(() => {
+    if (!images || !Array.isArray(images)) {
+      console.error("Ошибка: массив images не определён или пустой.");
+    }
+  }, [images]);
+
+  useEffect(() => {
     const tg = window.Telegram?.WebApp?.initDataUnsafe?.user;
     if (tg) {
       setTgId(tg.id);
@@ -62,23 +68,6 @@ const Registration = ({ onRegister }) => {
       return;
     }
 
-    // Пример проверки на дублирование (здесь должно быть реальное API)
-    const isDuplicate = false; // Пример проверки
-    if (isDuplicate) {
-      setPopup({
-        isOpen: true,
-        title: "Ошибка",
-        message: "Предприятие с таким названием уже существует.",
-      });
-      return;
-    }
-
-    setPopup({
-      isOpen: true,
-      title: "Сообщение",
-      message: "Регистрация прошла успешно!",
-    });
-
     const registrationData = {
       tg_id: tgId,
       name: userName,
@@ -92,9 +81,7 @@ const Registration = ({ onRegister }) => {
 
   return (
     <div className="registration-container">
-      <h1 className="welcome-header">
-        Добро пожаловать, {userName}
-      </h1>
+      <h1 className="welcome-header">Добро пожаловать, {userName}</h1>
       <input
         type="text"
         placeholder="Введите название компании"
@@ -105,7 +92,7 @@ const Registration = ({ onRegister }) => {
       <img src={selectedImage} alt="Выбранное фото" className="selected-image" />
 
       <div className="image-gallery">
-        {Array.isArray(images) &&
+        {images?.length ? (
           images.map((image, index) => (
             <img
               key={index}
@@ -114,13 +101,13 @@ const Registration = ({ onRegister }) => {
               onClick={() => handleImageSelect(image)}
               className={`gallery-image ${selectedImage === image ? "selected" : ""}`}
             />
-          ))}
+          ))
+        ) : (
+          <p>Изображения не найдены</p>
+        )}
       </div>
 
-      <button
-        onClick={handleRegister}
-        className="register-button"
-      >
+      <button onClick={handleRegister} className="register-button">
         Продолжить
       </button>
 
