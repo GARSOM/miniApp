@@ -1,10 +1,19 @@
+// App.jsx
 import React, { useEffect, useState } from "react";
 import IndicatorPanel from "./components/IndicatorPanel";
 import CompanyInfo from "./components/CompanyInfo";
-import SquarePanel from "./components/SquarePanel";
+import SquarePanel from './components/SquarePanel';
 import SyndicatePanel from "./components/SyndicatePanel";
+import wheel from './assets/icons/wheel.webp';
+import money from './assets/icons/money.webp';
+import material from './assets/icons/material.webp';
+import human from './assets/icons/human.webp';
+import energy from './assets/icons/energy.webp';
+import sklad from './assets/icons/sklad.webp';
+import facture from './assets/icons/facture.webp';
+import infrastucture from './assets/icons/infrastucture.webp';
 import Registration from "./components/Registration";
-import { registerUser, checkUserRegistration, getCompanyInfo } from "./api";
+import { registerUser, checkUserRegistration, getCompanyInfo } from './api'; // Импорт функций API
 
 const App = () => {
   const [theme, setTheme] = useState({
@@ -15,36 +24,16 @@ const App = () => {
   const [loading, setLoading] = useState(true);
   const [companyInfo, setCompanyInfo] = useState(null);
 
-  useEffect(() => {
-    const tg = window.Telegram?.WebApp;
-
-    if (tg) {
-      const themeParams = tg.themeParams || {};
-      const bgColor =
-        themeParams.bg_color === "#000000" ? "#333333" : themeParams.bg_color;
-      setTheme({
-        backgroundColor: bgColor || "#ffffff",
-        textColor: themeParams.text_color || "#000000",
-      });
-
-      // Следим за изменением темы
-      tg.onEvent("themeChanged", () => {
-        const updatedThemeParams = tg.themeParams || {};
-        const updatedBgColor =
-          updatedThemeParams.bg_color === "#000000"
-            ? "#333333"
-            : updatedThemeParams.bg_color;
-        setTheme({
-          backgroundColor: updatedBgColor || "#ffffff",
-          textColor: updatedThemeParams.text_color || "#000000",
-        });
-      });
-
-      // Помечаем Telegram WebApp как готовый
-      tg.ready();
-    }
-  }, []);
-
+  const indicators = [
+    { icon: wheel, name: "Логистика", value: 42, description: "Влияет на время продажи товара" },
+    { icon: money, name: "Деньги", value: 42, description: "Ресурс для покупки и использования других ресурсов" },
+    { icon: material, name: "Материалы", value: 42, description: "Необходим для производства товара" },
+    { icon: human, name: "Работники", value: 42, description: "Количество работников определяет максимальное количество одновременно производимых товаров" },
+    { icon: energy, name: "Энергия", value: 42, description: "Необходима для запуска производства товара" },
+    { icon: sklad, name: "Склад", value: 42, description: "Определяет максимальное количество производства товаров" },
+    { icon: facture, name: "Производство", value: 42, description: "Влияет на время производства товара" },
+    { icon: infrastucture, name: "Инфраструктура", value: 42, description: "Влияет на потребление ресурсов для производства" },
+  ];
   useEffect(() => {
     const tg = window.Telegram?.WebApp?.initDataUnsafe?.user;
     if (tg && tg.id) {
@@ -70,11 +59,11 @@ const App = () => {
     } else {
       setLoading(false);
     }
-  }, []);
+  }, [isRegistered]); // Добавлен isRegistered в зависимости, чтобы обновления отражались без перезагрузки.
 
   const handleRegister = async (registrationData) => {
     try {
-      await registerUser(registrationData);
+      const response = await registerUser(registrationData);
       setIsRegistered(true);
     } catch (error) {
       console.error("Ошибка при регистрации:", error);
@@ -110,11 +99,11 @@ const App = () => {
     >
       {isRegistered ? (
         <>
-          <IndicatorPanel />
+          <IndicatorPanel indicators={indicators} />
           <SquarePanel />
-          <CompanyInfo
-            name={companyInfo?.company_name}
-            image={companyInfo?.company_image}
+          <CompanyInfo 
+            name={companyInfo?.company_name} 
+            image={companyInfo?.company_image} 
           />
           <SyndicatePanel />
         </>
