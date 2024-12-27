@@ -58,16 +58,15 @@ const Registration = ({ onRegister }) => {
       return;
     }
 
-    const isValidName = /^[a-zA-Z0-9]+$/.test(companyName);
+    const isValidName = /^[a-zA-Zа-яА-Я0-9]+$/.test(companyName);
     if (!isValidName) {
       setPopup({
         isOpen: true,
         title: "Ошибка",
-        message: "Название предприятия должно содержать только буквы и/или цифры.",
+        message: "Название предприятия должно содержать только буквы (латинские или кириллические) и/или цифры.",
       });
       return;
     }
-
     const registrationData = {
       tg_id: tgId,
       name: userName,
