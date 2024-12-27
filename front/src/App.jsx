@@ -19,18 +19,23 @@ const App = () => {
     const tg = window.Telegram?.WebApp;
 
     if (tg) {
-      // Устанавливаем тему из Telegram WebApp
       const themeParams = tg.themeParams || {};
+      const bgColor =
+        themeParams.bg_color === "#000000" ? "#333333" : themeParams.bg_color;
       setTheme({
-        backgroundColor: themeParams.bg_color || "#ffffff",
+        backgroundColor: bgColor || "#ffffff",
         textColor: themeParams.text_color || "#000000",
       });
 
       // Следим за изменением темы
       tg.onEvent("themeChanged", () => {
         const updatedThemeParams = tg.themeParams || {};
+        const updatedBgColor =
+          updatedThemeParams.bg_color === "#000000"
+            ? "#333333"
+            : updatedThemeParams.bg_color;
         setTheme({
-          backgroundColor: updatedThemeParams.bg_color || "#ffffff",
+          backgroundColor: updatedBgColor || "#ffffff",
           textColor: updatedThemeParams.text_color || "#000000",
         });
       });
