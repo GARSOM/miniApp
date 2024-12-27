@@ -1,12 +1,12 @@
 import React from "react";
 
-const Popup = ({ icon, title, message, onClose }) => {
+const Popup = ({ icon, name, description, onClose }) => {
   return (
     <div className="popup-overlay" onClick={onClose}>
       <div className="popup-content" onClick={(e) => e.stopPropagation()}>
-        {icon && <img src={icon} alt="popup-icon" className="popup-icon" />}
-        <h2 className="popup-title">{title}</h2>
-        <p className="popup-message">{message}</p>
+        <img src={icon} alt="popup-icon" className="popup-icon" />
+        <h2 className="popup-name">{name}</h2>
+        <p className="popup-description">{description}</p>
         <button className="telegram-button" onClick={onClose}>
           OK
         </button>
