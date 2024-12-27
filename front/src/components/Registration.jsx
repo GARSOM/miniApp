@@ -18,6 +18,7 @@ const Registration = ({ onRegister }) => {
     message: "",
   });
 
+  // Проверьте, что массив `images` корректно инициализирован
   const images = [img1, img2, img3, img4, img5, img6];
 
   useEffect(() => {
@@ -104,15 +105,16 @@ const Registration = ({ onRegister }) => {
       <img src={selectedImage} alt="Выбранное фото" className="selected-image" />
 
       <div className="image-gallery">
-        {images.map((image, index) => (
-          <img
-            key={index}
-            src={image}
-            alt={`Выбор ${index + 1}`}
-            onClick={() => handleImageSelect(image)}
-            className={`gallery-image ${selectedImage === image ? "selected" : ""}`}
-          />
-        ))}
+        {Array.isArray(images) &&
+          images.map((image, index) => (
+            <img
+              key={index}
+              src={image}
+              alt={`Выбор ${index + 1}`}
+              onClick={() => handleImageSelect(image)}
+              className={`gallery-image ${selectedImage === image ? "selected" : ""}`}
+            />
+          ))}
       </div>
 
       <button
