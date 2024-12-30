@@ -26,6 +26,10 @@ const App = () => {
   const [companyInfo, setCompanyInfo] = useState(null);
   const [playerResources, setPlayerResources] = useState(null);
 
+  const indicators = playerResources ? [
+    { icon: money, name: "Деньги", value: playerResources.money || 0, description: "Ресурс для покупки и использования других ресурсов" },
+  ] : [];
+
   useEffect(() => {
     const tg = window.Telegram?.WebApp?.initDataUnsafe?.user;
 
@@ -38,17 +42,17 @@ const App = () => {
           setIsRegistered(registered);
 
           if (registered) {
-            console.log(playerResources.money)
             const companyData = await getCompanyInfo(tg.id);
             setCompanyInfo(companyData);
 
-            // Загрузка ресурсов
             const resources = await getPlayerResources(tg.id);
-            setPlayerResources(resources);
+            console.log('Player resources:', resources); // Debugging log
+            setPlayerResources(resources || {}); // Ensure resources is an object
           } else {
             await initPlayer(tg.id);
             const resources = await getPlayerResources(tg.id);
-            setPlayerResources(resources);
+            console.log('Initialized player resources:', resources); // Debugging log
+            setPlayerResources(resources || {});
           }
         } catch (error) {
           console.error("Ошибка проверки регистрации или загрузки данных:", error);
@@ -63,16 +67,16 @@ const App = () => {
       setLoading(false);
     }
   }, []);
-  const indicators = playerResources ? [
-    // { icon: wheel, name: "Логистика", value: playerResources.logistics, description: "Влияет на время продажи товара" },
-    { icon: money, name: "Деньги", value: playerResources.money, description: "Ресурс для покупки и использования других ресурсов" },
-    // { icon: material, name: "Материалы", value: playerResources.material, description: "Необходим для производства товара" },
-    // { icon: facture, name: "Ленты конвеера", value: playerResources.production_lines, description: "Определяет количество одновременно производимых товаров" },
-    // { icon: energy, name: "Энергия", value: `${playerResources.current_energy} / ${playerResources.total_energy}`, description: "Необходима для запуска производства товара" },
-    // { icon: sklad, name: "Склад", value: `${playerResources.occupied_storage} / ${playerResources.total_storage}`, description: "Определяет максимальное количество производства товаров" },
-    // { icon: infrastucture, name: "Производство", value: playerResources.production, description: "Влияет на время производства товара" },
-    // { icon: car, name: "Транспорт ", value: playerResources.transport, description: "Определяет максимальное количество товаров на продажу" },
-  ] : [];
+  // const indicators = playerResources ? [
+  //   { icon: wheel, name: "Логистика", value: playerResources.logistics, description: "Влияет на время продажи товара" },
+  //   { icon: money, name: "Деньги", value: playerResources.money, description: "Ресурс для покупки и использования других ресурсов" },
+  //    { icon: material, name: "Материалы", value: playerResources.material, description: "Необходим для производства товара" },
+  //    { icon: facture, name: "Ленты конвеера", value: playerResources.production_lines, description: "Определяет количество одновременно производимых товаров" },
+  //    { icon: energy, name: "Энергия", value: `${playerResources.current_energy} / ${playerResources.total_energy}`, description: "Необходима для запуска производства товара" },
+  //    { icon: sklad, name: "Склад", value: `${playerResources.occupied_storage} / ${playerResources.total_storage}`, description: "Определяет максимальное количество производства товаров" },
+  //    { icon: infrastucture, name: "Производство", value: playerResources.production, description: "Влияет на время производства товара" },
+  //    { icon: car, name: "Транспорт ", value: playerResources.transport, description: "Определяет максимальное количество товаров на продажу" },
+  // ] : [];
   const handleRegister = async (registrationData) => {
     try {
       const response = await registerUser(registrationData);
