@@ -12,7 +12,7 @@ import sklad from './assets/icons/sklad.webp';
 import facture from './assets/icons/facture.webp';
 import infrastucture from './assets/icons/infrastucture.webp';
 import Registration from "./components/Registration";
-import { registerUser, checkUserRegistration, getCompanyInfo, initPlayer } from './api'; // Импорт функций API
+import { registerUser, checkUserRegistration, getCompanyInfo, initPlayer, getPlayerResources } from './api'; // Импорт функций API
 import axios from 'axios';
 
 const App = () => {
@@ -24,55 +24,58 @@ const App = () => {
   const [isRegistered, setIsRegistered] = useState(false);
   const [loading, setLoading] = useState(true);
   const [companyInfo, setCompanyInfo] = useState(null);
+  const [playerResources, setPlayerResources] = useState(null);
 
-  const indicators = [
-    { icon: wheel, name: "Логистика", value: 42, description: "Влияет на время продажи товара" },
-    { icon: money, name: "Деньги", value: 42, description: "Ресурс для покупки и использования других ресурсов" },
-    { icon: material, name: "Материалы", value: 42, description: "Необходим для производства товара" },
-    { icon: facture, name: "Ленты конвеера", value: 42, description: "Определяет количество одновременно производимых товаров" },
-    { icon: energy, name: "Энергия", value: 42, description: "Необходима для запуска производства товара" },
-    { icon: sklad, name: "Склад", value: 42, description: "Определяет максимальное количество производства товаров" },
-    { icon: infrastucture, name: "Производство", value: 42, description: "Влияет на время производства товара" },
-    { icon: car, name: "Транспорт ", value: 42, description: "Определяет максимальное количество товаров на продажу" },
-  ];
+
+
+  const indicators = playerResources ? [
+    // { icon: wheel, name: "Логистика", value: playerResources.logistics, description: "Влияет на время продажи товара" },
+    { icon: money, name: "Деньги", value: playerResources.money, description: "Ресурс для покупки и использования других ресурсов" },
+    // { icon: material, name: "Материалы", value: playerResources.material, description: "Необходим для производства товара" },
+    // { icon: facture, name: "Ленты конвеера", value: playerResources.production_lines, description: "Определяет количество одновременно производимых товаров" },
+    // { icon: energy, name: "Энергия", value: `${playerResources.current_energy} / ${playerResources.total_energy}`, description: "Необходима для запуска производства товара" },
+    // { icon: sklad, name: "Склад", value: `${playerResources.occupied_storage} / ${playerResources.total_storage}`, description: "Определяет максимальное количество производства товаров" },
+    // { icon: infrastucture, name: "Производство", value: playerResources.production, description: "Влияет на время производства товара" },
+    // { icon: car, name: "Транспорт ", value: playerResources.transport, description: "Определяет максимальное количество товаров на продажу" },
+  ] : [];
+
   useEffect(() => {
     const tg = window.Telegram?.WebApp?.initDataUnsafe?.user;
-  
+
     if (tg && tg.id) {
       setTelegramId(tg.id);
-  
+
       const loadData = async () => {
         try {
           const registered = await checkUserRegistration(tg.id);
           setIsRegistered(registered);
-  
+
           if (registered) {
-            // Если пользователь зарегистрирован, загружаем информацию о компании
             const companyData = await getCompanyInfo(tg.id);
             setCompanyInfo(companyData);
+
+            // Загрузка ресурсов
+            const resources = await getPlayerResources(tg.id);
+            setPlayerResources(resources);
           } else {
-            // Если пользователь не зарегистрирован, выполняем регистрацию
             await initPlayer(tg.id);
-            setIsRegistered(true); // Устанавливаем зарегистрированного пользователя
-            // После успешной регистрации загружаем информацию о компании
-            const companyData = await getCompanyInfo(tg.id);
-            setCompanyInfo(companyData);
+            const resources = await getPlayerResources(tg.id);
+            setPlayerResources(resources);
           }
         } catch (error) {
-          console.error("Ошибка проверки регистрации или загрузки данных компании:", error);
+          console.error("Ошибка проверки регистрации или загрузки данных:", error);
           setIsRegistered(false);
         } finally {
-          setLoading(false); // Завершаем загрузку
+          setLoading(false);
         }
       };
-  
+
       loadData();
     } else {
       setLoading(false);
     }
-  }, [isRegistered]); // Добавляем зависимость от isRegistered
-  
-  
+  }, []);
+
   const handleRegister = async (registrationData) => {
     try {
       const response = await registerUser(registrationData);
@@ -81,7 +84,7 @@ const App = () => {
       console.error("Ошибка при регистрации:", error);
     }
   };
-  
+
   if (loading) {
     return (
       <div

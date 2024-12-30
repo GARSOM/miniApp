@@ -5,6 +5,17 @@ const API_URL = "https://miniapp-production-f83c.up.railway.app/api";
 const api = axios.create({
   baseURL: API_URL,
 });
+export const getPlayerResources = async (tgId) => {
+  try {
+    const response = await api.get(`${API_URL}/player-resources`, {
+      params: { tg_id: tgId },
+    });
+    return response.data;
+  } catch (error) {
+    console.error("Ошибка при получении ресурсов игрока:", error);
+    throw error;
+  }
+};
 
 export const initPlayer = async (telegramId) => {
   try {

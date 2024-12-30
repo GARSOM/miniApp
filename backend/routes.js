@@ -2,6 +2,20 @@ const express = require("express");
 const db = require("./db");
 const router = express.Router();
 
+router.get('/player-resources', async (req, res) => {
+  const { tg_id } = req.query;
+
+  try {
+    const resources = await db.get(`SELECT * FROM player_resources WHERE player_id = ?`, [tg_id]);
+    if (!resources) {
+      return res.status(404).json({ message: "Ресурсы не найдены" });
+    }
+    res.json(resources);
+  } catch (error) {
+    console.error("Ошибка получения ресурсов:", error);
+    res.status(500).json({ message: "Ошибка сервера" });
+  }
+});
 // Маршрут для инициализации ресурсов и показателей игрока
 router.post("/init-player", async (req, res) => {
   const { player_id } = req.body;
