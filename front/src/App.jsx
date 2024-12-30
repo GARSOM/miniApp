@@ -41,7 +41,6 @@ const App = () => {
     if (tg && tg.id) {
       setTelegramId(tg.id);
       checkUserRegistration(tg.id)
-      initPlayer(telegramId)
         .then((registered) => {
           setIsRegistered(registered);
           if (registered) {
