@@ -12,7 +12,7 @@ import sklad from './assets/icons/sklad.webp';
 import facture from './assets/icons/facture.webp';
 import infrastucture from './assets/icons/infrastucture.webp';
 import Registration from "./components/Registration";
-import { registerUser, checkUserRegistration, getCompanyInfo } from './api'; // Импорт функций API
+import { registerUser, checkUserRegistration, getCompanyInfo, initPlayer } from './api'; // Импорт функций API
 import axios from 'axios';
 
 const App = () => {
@@ -41,13 +41,16 @@ const App = () => {
     if (tg && tg.id) {
       setTelegramId(tg.id);
       checkUserRegistration(tg.id)
-        .then(async (registered) => {
+      initPlayer(telegramId)
+        .then((registered) => {
           setIsRegistered(registered);
           if (registered) {
-            const companyData = await getCompanyInfo(tg.id);
-            setCompanyInfo(companyData);
-          } else {
-            await initPlayer(tg.id); // Инициализируем игрока только если он не зарегистрирован
+            return getCompanyInfo(tg.id);
+          }
+        })
+        .then((data) => {
+          if (data) {
+            setCompanyInfo(data);
           }
         })
         .catch((err) => {
@@ -61,6 +64,7 @@ const App = () => {
       setLoading(false);
     }
   }, []); // Зависимость пустая, так как инициализация происходит один раз.
+
   const handleRegister = async (registrationData) => {
     try {
       const response = await registerUser(registrationData);
