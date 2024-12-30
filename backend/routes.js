@@ -3,7 +3,7 @@ const db = require("./db");
 const router = express.Router();
 
 // Маршрут для инициализации ресурсов и показателей игрока
-router.post("/api/init-player", async (req, res) => {
+router.post("/init-player", async (req, res) => {
   const { player_id } = req.body;
 
   try {
