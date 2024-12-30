@@ -27,7 +27,7 @@ const App = () => {
   const [playerResources, setPlayerResources] = useState(null);
 
   const indicators = playerResources ? [
-    { icon: money, name: "Деньги", value: playerResources.money || 0, description: "Ресурс для покупки и использования других ресурсов" },
+    { icon: money, name: "Деньги", value: playerResources.money, description: "Ресурс для покупки и использования других ресурсов" },
   ] : [];
 
   useEffect(() => {
