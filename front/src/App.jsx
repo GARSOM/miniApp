@@ -1,4 +1,3 @@
-// App.jsx
 import React, { useEffect, useState } from "react";
 import IndicatorPanel from "./components/IndicatorPanel";
 import CompanyInfo from "./components/CompanyInfo";
@@ -14,13 +13,15 @@ import facture from './assets/icons/facture.webp';
 import infrastucture from './assets/icons/infrastucture.webp';
 import Registration from "./components/Registration";
 import { registerUser, checkUserRegistration, getCompanyInfo } from './api'; // Импорт функций API
+import axios from 'axios';
 
 const App = () => {
   const [theme, setTheme] = useState({
     backgroundColor: "#ffffff", // Стандартный белый фон
     textColor: "#000000", // Стандартный чёрный текст
   });
-  const [isRegistered, setIsRegistered] = useState(true);
+  const [telegramId, setTelegramId] = useState(null); // Сохраняем telegramId
+  const [isRegistered, setIsRegistered] = useState(false);
   const [loading, setLoading] = useState(true);
   const [companyInfo, setCompanyInfo] = useState(null);
 
@@ -36,23 +37,9 @@ const App = () => {
   ];
 
   useEffect(() => {
-    const initializePlayer = async () => {
-      try {
-        const response = await axios.post("/api/init-player", { player_id: telegramId });
-        console.log(response.data.message);
-      } catch (error) {
-        console.error("Ошибка при инициализации игрока:", error);
-      }
-    };
-  
-    if (telegramId) {
-      initializePlayer();
-    }
-  }, [telegramId]);
-  
-  useEffect(() => {
     const tg = window.Telegram?.WebApp?.initDataUnsafe?.user;
     if (tg && tg.id) {
+      setTelegramId(tg.id);
       checkUserRegistration(tg.id)
         .then((registered) => {
           setIsRegistered(registered);
@@ -75,7 +62,21 @@ const App = () => {
     } else {
       setLoading(false);
     }
-  }, [isRegistered]); // Добавлен isRegistered в зависимости, чтобы обновления отражались без перезагрузки.
+  }, []); // Зависимость пустая, так как инициализация происходит один раз.
+
+  useEffect(() => {
+    if (telegramId) {
+      const initializePlayer = async () => {
+        try {
+          const response = await axios.post("/api/init-player", { player_id: telegramId });
+          console.log(response.data.message);
+        } catch (error) {
+          console.error("Ошибка при инициализации игрока:", error);
+        }
+      };
+      initializePlayer();
+    }
+  }, [telegramId]); // Добавляем telegramId в зависимости, чтобы логика выполнялась после его установки.
 
   const handleRegister = async (registrationData) => {
     try {
