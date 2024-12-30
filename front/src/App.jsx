@@ -32,27 +32,28 @@ const App = () => {
 
   useEffect(() => {
     const tg = window.Telegram?.WebApp?.initDataUnsafe?.user;
-
+  
     if (tg && tg.id) {
       setTelegramId(tg.id);
-
+  
       const loadData = async () => {
         try {
           const registered = await checkUserRegistration(tg.id);
           setIsRegistered(registered);
-
+  
           if (registered) {
             const companyData = await getCompanyInfo(tg.id);
             setCompanyInfo(companyData);
-
+  
             const resources = await getPlayerResources(tg.id);
-            console.log('Player resources:', resources); // Debugging log
-            setPlayerResources(resources || {}); // Ensure resources is an object
-          } else {
-            await initPlayer(tg.id);
-            const resources = await getPlayerResources(tg.id);
-            console.log('Initialized player resources:', resources); // Debugging log
-            setPlayerResources(resources || {});
+            setPlayerResources({
+              money: 0,
+              production_lines: 0,
+              energy_total: 0,
+              energy_current: 0,
+              material: 0,
+              ...resources,
+            });
           }
         } catch (error) {
           console.error("Ошибка проверки регистрации или загрузки данных:", error);
@@ -61,7 +62,7 @@ const App = () => {
           setLoading(false);
         }
       };
-
+  
       loadData();
     } else {
       setLoading(false);

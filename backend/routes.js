@@ -6,37 +6,59 @@ router.get('/player-resources', async (req, res) => {
   const { tg_id } = req.query;
 
   try {
-    const resources = await db.get(`SELECT * FROM player_resources WHERE player_id = ?`, [tg_id]);
-    if (!resources) {
-      return res.status(404).json({ message: "Ресурсы не найдены" });
+    // Получаем `player_id` из таблицы `players`
+    const player = await db.get(`SELECT id FROM players WHERE tg_id = ?`, [tg_id]);
+
+    if (!player) {
+      return res.status(404).json({ error: "Игрок не найден" });
     }
+
+    const resources = await db.get(`SELECT * FROM player_resources WHERE player_id = ?`, [player.id]);
+
+    if (!resources) {
+      // Возвращаем значения по умолчанию
+      return res.status(200).json({
+        money: 100,
+        production_lines: 1,
+        energy_total: 10,
+        energy_current: 10,
+        material: 10,
+      });
+    }
+
     res.json(resources);
   } catch (error) {
     console.error("Ошибка получения ресурсов:", error);
     res.status(500).json({ message: "Ошибка сервера" });
   }
 });
+
 // Маршрут для инициализации ресурсов и показателей игрока
-router.post("/init-player", async (req, res) => {
+outer.post("/init-player", async (req, res) => {
   const { player_id } = req.body;
 
   try {
-    // Проверяем, существуют ли записи в таблицах
+    // Проверьте наличие игрока
+    const playerExists = await db.get("SELECT * FROM players WHERE id = ?", [player_id]);
+
+    if (!playerExists) {
+      return res.status(404).json({ error: "Игрок не найден" });
+    }
+
+    // Проверьте наличие ресурсов и индикаторов
     const existingResources = await db.get("SELECT * FROM player_resources WHERE player_id = ?", [player_id]);
     const existingIndicators = await db.get("SELECT * FROM player_indicators WHERE player_id = ?", [player_id]);
 
     if (!existingResources) {
-      // Добавляем ресурсы игрока
       await db.run(
-        "INSERT INTO player_resources (player_id, money, production_lines, energy_total, energy_current, material) VALUES (?, 100, 1, 10, 10, 10)",
+        "INSERT INTO player_resources (player_id) VALUES (?)",
         [player_id]
       );
     }
 
     if (!existingIndicators) {
-      // Добавляем показатели игрока
       await db.run(
-        "INSERT INTO player_indicators (player_id, production, logistics, warehouse_total, warehouse_occupied, transport) VALUES (?, 3600, 1800, 1, 0, 1)",
+        "INSERT INTO player_indicators (player_id) VALUES (?)",
         [player_id]
       );
     }
