@@ -51,8 +51,10 @@ const App = () => {
             const companyData = await getCompanyInfo(tg.id);
             setCompanyInfo(companyData);
           } else {
-            // Если пользователь не зарегистрирован, выполняем регистрацию и загружаем информацию о компании
+            // Если пользователь не зарегистрирован, выполняем регистрацию
             await initPlayer(tg.id);
+            setIsRegistered(true); // Устанавливаем зарегистрированного пользователя
+            // После успешной регистрации загружаем информацию о компании
             const companyData = await getCompanyInfo(tg.id);
             setCompanyInfo(companyData);
           }
@@ -68,7 +70,8 @@ const App = () => {
     } else {
       setLoading(false);
     }
-  }, []); // Зависимость пустая, так как инициализация происходит один раз.
+  }, [isRegistered]); // Добавляем зависимость от isRegistered
+  
   
   const handleRegister = async (registrationData) => {
     try {
