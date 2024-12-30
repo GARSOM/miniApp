@@ -1,7 +1,7 @@
 import axios from "axios";
 
-const API_URL = "https://miniapp-production-f83c.up.railway.app/api";
-
+// const API_URL = "https://miniapp-production-f83c.up.railway.app/api";
+const API_URL = " http://localhost:8080/api";
 const api = axios.create({
   baseURL: API_URL,
 });
