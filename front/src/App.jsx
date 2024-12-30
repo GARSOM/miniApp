@@ -43,23 +43,17 @@ const App = () => {
       checkUserRegistration(tg.id)
         .then((registered) => {
           setIsRegistered(registered);
-  
           if (registered) {
-            // Если пользователь зарегистрирован, получаем информацию о компании
             return getCompanyInfo(tg.id);
-          } else {
-            // Если пользователь не зарегистрирован, инициализируем игрока
-            return initPlayer(tg.id);
           }
         })
         .then((data) => {
-          if (data && isRegistered) {
-            // Устанавливаем данные компании, если пользователь зарегистрирован
+          if (data) {
             setCompanyInfo(data);
           }
         })
         .catch((err) => {
-          console.error("Ошибка проверки регистрации, инициализации или загрузки данных компании:", err);
+          console.error("Ошибка проверки регистрации или загрузки данных компании:", err);
           setIsRegistered(false);
         })
         .finally(() => {
