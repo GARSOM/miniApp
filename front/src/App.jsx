@@ -41,15 +41,13 @@ const App = () => {
     if (tg && tg.id) {
       setTelegramId(tg.id);
       checkUserRegistration(tg.id)
-        .then((registered) => {
+        .then(async (registered) => {
           setIsRegistered(registered);
           if (registered) {
-            return getCompanyInfo(tg.id);
-          }
-        })
-        .then((data) => {
-          if (data) {
-            setCompanyInfo(data);
+            const companyData = await getCompanyInfo(tg.id);
+            setCompanyInfo(companyData);
+          } else {
+            await initPlayer(tg.id); // Инициализируем игрока только если он не зарегистрирован
           }
         })
         .catch((err) => {
@@ -63,21 +61,6 @@ const App = () => {
       setLoading(false);
     }
   }, []); // Зависимость пустая, так как инициализация происходит один раз.
-
-  useEffect(() => {
-    if (telegramId) {
-      const initializePlayer = async () => {
-        try {
-          const response = await axios.post("/init-player", { player_id: telegramId });
-          console.log(response.data.message);
-        } catch (error) {
-          console.error("Ошибка при инициализации игрока:", error);
-        }
-      };
-      initializePlayer();
-    }
-  }, [telegramId]); // Добавляем telegramId в зависимости, чтобы логика выполнялась после его установки.
-
   const handleRegister = async (registrationData) => {
     try {
       const response = await registerUser(registrationData);

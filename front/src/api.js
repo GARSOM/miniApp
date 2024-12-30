@@ -8,15 +8,14 @@ const api = axios.create({
 
 export const initPlayer = async (telegramId) => {
   try {
-    const response = await axios.post(`${API_URL}/init-player`, {
-      params: { tg_id: telegramId }
-    });
+    const response = await api.post(`${API_URL}/init-player`, { tg_id: telegramId });
     return response.data;
   } catch (error) {
-    console.error("Ошибка при получении информации о компании:", error);
+    console.error("Ошибка при инициализации игрока:", error);
     throw error;
   }
 };
+
 
 export const getCompanyInfo = async (tgId) => {
   try {
