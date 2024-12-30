@@ -38,33 +38,34 @@ const App = () => {
 
   useEffect(() => {
     const tg = window.Telegram?.WebApp?.initDataUnsafe?.user;
+  
     if (tg && tg.id) {
       setTelegramId(tg.id);
+  
+      // Проверяем регистрацию пользователя
       checkUserRegistration(tg.id)
         .then((registered) => {
           setIsRegistered(registered);
+  
           if (registered) {
             // Если пользователь зарегистрирован, получаем информацию о компании
-            getCompanyInfo(tg.id);
-            initPlayer(tg.id);
-            console.log(tg.id)
+            return getCompanyInfo(tg.id);
           } else {
             // Если пользователь не зарегистрирован, инициализируем игрока
-            console.log('else')
+            return initPlayer(tg.id).then(() => getCompanyInfo(tg.id));
           }
         })
         .then((data) => {
-          if (data && isRegistered) {
-            // Устанавливаем данные компании, если пользователь зарегистрирован
-            setCompanyInfo(data);
+          if (data) {
+            setCompanyInfo(data); // Устанавливаем данные компании
           }
         })
         .catch((err) => {
-          console.error("Ошибка проверки регистрации, инициализации или загрузки данных компании:", err);
+          console.error("Ошибка проверки регистрации или загрузки данных компании:", err);
           setIsRegistered(false);
         })
         .finally(() => {
-          setLoading(false);
+          setLoading(false); // Завершаем загрузку
         });
     } else {
       setLoading(false);
