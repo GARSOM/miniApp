@@ -43,13 +43,14 @@ const App = () => {
       checkUserRegistration(tg.id)
         .then((registered) => {
           setIsRegistered(registered);
-  
           if (registered) {
             // Если пользователь зарегистрирован, получаем информацию о компании
-            return getCompanyInfo(tg.id);
+            getCompanyInfo(tg.id);
+            initPlayer(tg.id);
+            console.log(tg.id)
           } else {
             // Если пользователь не зарегистрирован, инициализируем игрока
-            return initPlayer(tg.id);
+            console.log('else')
           }
         })
         .then((data) => {
@@ -69,8 +70,6 @@ const App = () => {
       setLoading(false);
     }
   }, []); // Зависимость пустая, так как инициализация происходит один раз.
-
-
   const handleRegister = async (registrationData) => {
     try {
       const response = await registerUser(registrationData);
@@ -79,7 +78,33 @@ const App = () => {
       console.error("Ошибка при регистрации:", error);
     }
   };
-
+  useEffect(() => {
+    const tg = window.Telegram?.WebApp?.initDataUnsafe?.user;
+    if (tg && tg.id) {
+      setTelegramId(tg.id);
+      checkUserRegistration(tg.id)
+        .then((registered) => {
+          setIsRegistered(registered);
+          if (registered) {
+            return getCompanyInfo(tg.id);
+          }
+        })
+        .then((data) => {
+          if (data) {
+            setCompanyInfo(data);
+          }
+        })
+        .catch((err) => {
+          console.error("Ошибка проверки регистрации или загрузки данных компании:", err);
+          setIsRegistered(false);
+        })
+        .finally(() => {
+          setLoading(false);
+        });
+    } else {
+      setLoading(false);
+    }
+  }, []); // Зависимость пустая, так как инициализация происходит один раз.
   if (loading) {
     return (
       <div
