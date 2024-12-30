@@ -34,7 +34,7 @@ router.get('/player-resources', async (req, res) => {
 });
 
 // Маршрут для инициализации ресурсов и показателей игрока
-outer.post("/init-player", async (req, res) => {
+router.post("/init-player", async (req, res) => {
   const { player_id } = req.body;
 
   try {
