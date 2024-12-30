@@ -10,7 +10,53 @@ const db = new sqlite3.Database(dbPath, (err) => {
     console.log("Подключение к базе данных успешно!");
   }
 });
+// Создаём таблицу player_resources, если её ещё нет
+db.serialize(() => {
+  db.run(
+    `CREATE TABLE player_resources (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    player_id INTEGER NOT NULL,
+    money INTEGER DEFAULT 100,
+    production_lines INTEGER DEFAULT 1,
+    energy_total INTEGER DEFAULT 10,
+    energy_current INTEGER DEFAULT 10,
+    material INTEGER DEFAULT 10,
+    FOREIGN KEY (player_id) REFERENCES players(id)
+    );
 
+    )`,
+    (err) => {
+      if (err) {
+        console.error("Ошибка создания таблицы:", err.message);
+      } else {
+        console.log("Таблица player_resources готова!");
+      }
+    }
+  );
+});
+// Создаём таблицу player_indicators , если её ещё нет
+db.serialize(() => {
+  db.run(
+    `CREATE TABLE player_indicators (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    player_id INTEGER NOT NULL,
+    production INTEGER DEFAULT 3600, -- 60 минут
+    logistics INTEGER DEFAULT 1800, -- 30 минут
+    warehouse_total INTEGER DEFAULT 1,
+    warehouse_occupied INTEGER DEFAULT 0,
+    transport INTEGER DEFAULT 1,
+    FOREIGN KEY (player_id) REFERENCES players(id)
+    );
+    )`,
+    (err) => {
+      if (err) {
+        console.error("Ошибка создания таблицы:", err.message);
+      } else {
+        console.log("Таблица player_indicators  готова!");
+      }
+    }
+  );
+});
 // Создаём таблицу players, если её ещё нет
 db.serialize(() => {
   db.run(

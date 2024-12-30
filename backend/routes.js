@@ -2,6 +2,37 @@ const express = require("express");
 const db = require("./db");
 const router = express.Router();
 
+// Маршрут для инициализации ресурсов и показателей игрока
+router.post("/api/init-player", async (req, res) => {
+  const { player_id } = req.body;
+
+  try {
+    // Проверяем, существуют ли записи в таблицах
+    const existingResources = await db.get("SELECT * FROM player_resources WHERE player_id = ?", [player_id]);
+    const existingIndicators = await db.get("SELECT * FROM player_indicators WHERE player_id = ?", [player_id]);
+
+    if (!existingResources) {
+      // Добавляем ресурсы игрока
+      await db.run(
+        "INSERT INTO player_resources (player_id, money, production_lines, energy_total, energy_current, material) VALUES (?, 100, 1, 10, 10, 10)",
+        [player_id]
+      );
+    }
+
+    if (!existingIndicators) {
+      // Добавляем показатели игрока
+      await db.run(
+        "INSERT INTO player_indicators (player_id, production, logistics, warehouse_total, warehouse_occupied, transport) VALUES (?, 3600, 1800, 1, 0, 1)",
+        [player_id]
+      );
+    }
+
+    res.status(200).json({ message: "Player initialized successfully" });
+  } catch (error) {
+    console.error("Ошибка при инициализации игрока:", error);
+    res.status(500).json({ error: "Failed to initialize player" });
+  }
+});
 router.get("/company-info", (req, res) => {
   const { tg_id } = req.query;
   const query = `SELECT company_name, company_image FROM players WHERE tg_id = ?`;

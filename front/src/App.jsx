@@ -7,7 +7,7 @@ import SyndicatePanel from "./components/SyndicatePanel";
 import wheel from './assets/icons/wheel.webp';
 import money from './assets/icons/money.webp';
 import material from './assets/icons/material.webp';
-import human from './assets/icons/human.webp';
+import car from './assets/icons/car.webp';
 import energy from './assets/icons/energy.webp';
 import sklad from './assets/icons/sklad.webp';
 import facture from './assets/icons/facture.webp';
@@ -20,7 +20,7 @@ const App = () => {
     backgroundColor: "#ffffff", // Стандартный белый фон
     textColor: "#000000", // Стандартный чёрный текст
   });
-  const [isRegistered, setIsRegistered] = useState(false);
+  const [isRegistered, setIsRegistered] = useState(true);
   const [loading, setLoading] = useState(true);
   const [companyInfo, setCompanyInfo] = useState(null);
 
@@ -28,12 +28,28 @@ const App = () => {
     { icon: wheel, name: "Логистика", value: 42, description: "Влияет на время продажи товара" },
     { icon: money, name: "Деньги", value: 42, description: "Ресурс для покупки и использования других ресурсов" },
     { icon: material, name: "Материалы", value: 42, description: "Необходим для производства товара" },
-    { icon: human, name: "Работники", value: 42, description: "Количество работников определяет максимальное количество одновременно производимых товаров" },
+    { icon: facture, name: "Ленты конвеера", value: 42, description: "Определяет количество одновременно производимых товаров" },
     { icon: energy, name: "Энергия", value: 42, description: "Необходима для запуска производства товара" },
     { icon: sklad, name: "Склад", value: 42, description: "Определяет максимальное количество производства товаров" },
-    { icon: facture, name: "Производство", value: 42, description: "Влияет на время производства товара" },
-    { icon: infrastucture, name: "Инфраструктура", value: 42, description: "Влияет на потребление ресурсов для производства" },
+    { icon: infrastucture, name: "Производство", value: 42, description: "Влияет на время производства товара" },
+    { icon: car, name: "Транспорт ", value: 42, description: "Определяет максимальное количество товаров на продажу" },
   ];
+
+  useEffect(() => {
+    const initializePlayer = async () => {
+      try {
+        const response = await axios.post("/api/init-player", { player_id: telegramId });
+        console.log(response.data.message);
+      } catch (error) {
+        console.error("Ошибка при инициализации игрока:", error);
+      }
+    };
+  
+    if (telegramId) {
+      initializePlayer();
+    }
+  }, [telegramId]);
+  
   useEffect(() => {
     const tg = window.Telegram?.WebApp?.initDataUnsafe?.user;
     if (tg && tg.id) {
