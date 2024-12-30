@@ -33,6 +33,7 @@ router.post("/init-player", async (req, res) => {
     res.status(500).json({ error: "Failed to initialize player" });
   }
 });
+
 router.get("/company-info", (req, res) => {
   const { tg_id } = req.query;
   const query = `SELECT company_name, company_image FROM players WHERE tg_id = ?`;

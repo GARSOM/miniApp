@@ -5,14 +5,18 @@ const API_URL = "https://miniapp-production-f83c.up.railway.app/api";
 const api = axios.create({
   baseURL: API_URL,
 });
-export const initPlayer = async (telegramId) => {
-  const response = await axios.post(
-    `${API_URL}/init-player`,
-    { tg_id: telegramId }
-  );
-  return response.data;
-};
 
+export const initPlayer = async (telegramId) => {
+  try {
+    const response = await axios.post(`${API_URL}/init-player`, {
+      params: { tg_id: telegramId }
+    });
+    return response.data;
+  } catch (error) {
+    console.error("Ошибка при получении информации о компании:", error);
+    throw error;
+  }
+};
 
 export const getCompanyInfo = async (tgId) => {
   try {
