@@ -66,10 +66,9 @@ const App = () => {
 
   useEffect(() => {
     if (telegramId) {
-      console.log('dasd', telegramId);
       const initializePlayer = async () => {
         try {
-          const response = await axios.post("/api/init-player", { player_id: telegramId });
+          const response = await axios.post("/init-player", { player_id: telegramId });
           console.log(response.data.message);
         } catch (error) {
           console.error("Ошибка при инициализации игрока:", error);
